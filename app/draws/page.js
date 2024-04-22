@@ -2,7 +2,7 @@ export default function DrawsPage() {
     return (
         <div className="container mx-auto max-w-7xl sm:px-16">
             <div className="relative grid grid-cols-1 my-12">
-                <div className="blurBackground absolute top-0 left-0 backdrop-blur grid items-center w-full h-full z-20"><div><h2 className="text-2xl text-center mb-3 m-auto">Buy Now to Unlock the Draws</h2> <button className="buyBtn animate-pulse bg-green-600 hover:bg-green-800 p-2 w-fit h-fit rounded-md text-white mx-auto flex items-center">Buy Now</button></div></div>
+                <div className="blurBackground hidden absolute top-0 left-0 backdrop-blur grid items-center w-full h-full z-20"><div><h2 className="text-2xl text-center mb-3 m-auto">Buy Now to Unlock the Draws</h2> <button className="buyBtn animate-pulse bg-green-600 hover:bg-green-800 p-2 w-fit h-fit rounded-md text-white mx-auto flex items-center">Buy Now</button></div></div>
                 <div className="rounded-lg overflow-hidden mx-auto pb-4">
                     <div className="bg-green-600 pt-4 px-4">
                         <h2 className="text-2xl text-white text-center">Pick Any 8 Numbers</h2>
