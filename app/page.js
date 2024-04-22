@@ -20,20 +20,32 @@ export default function Home() {
                 <img src="/images/tree.png" className="d-block m-auto" style={{ height: "500px" }} alt="plant1" />
                 <div className="carousel-caption bg-black/50">
                   <p className="text-white">Help us plant trees for a better ecosystem</p>
-                  <button className="bg-green-600 hover:bg-green-800 text-white font-bold mt-2 py-2 px-4 rounded">Donate Now</button>
+                  {/* <button className="bg-green-600 hover:bg-green-800 text-white font-bold mt-2 py-2 px-4 rounded">Donate Now</button> */}
                 </div>
               </div>
               <div className="carousel-item">
                 <img src="/images/carousel2.png" className="d-block m-auto" style={{ height: "500px" }} alt="plant2" />
+                <div className="carousel-caption bg-black/50">
+                  <p className="text-white">Save the planet by planting trees</p>
+                </div>
               </div>
               <div className="carousel-item">
                 <img src="/images/prize1.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize1" />
+                <div className="carousel-caption bg-black/50">
+                  <p className="text-white">First prize</p>
+                </div>
               </div>
               <div className="carousel-item">
                 <img src="/images/prize2.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize2" />
+                <div className="carousel-caption bg-black/50">
+                  <p className="text-white">Second prize</p>
+                </div>
               </div>
               <div className="carousel-item">
                 <img src="/images/prize3.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize3" />
+                <div className="carousel-caption bg-black/50">
+                  <p className="text-white">Third prize</p>
+                </div>
               </div>
             </div>
             <button className="carousel-control-prev absolute" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
