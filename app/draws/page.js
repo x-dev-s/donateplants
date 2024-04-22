@@ -18,7 +18,7 @@ export default function DrawsPage() {
                             <div className="selectedNumber p-1 text-center bg-white w-[30px] h-[30px] rounded-md"></div>
                         </div>
                     </div>
-                    <div style={{ borderRadius: "0px 0px 10px 10px" }} className="grid grid-col-3 bg-gray-100 px-4 py-4 sm:grid-cols-4 md:grid-cols-6 gap-4 mx-auto">
+                    <div style={{ borderRadius: "0px 0px 10px 10px" }} className="grid grid-cols-4 bg-gray-100 px-4 py-4 sm:grid-cols-5 md:grid-cols-6 gap-4 mx-auto">
                         {/* from 1 to 31 */}
                         <div className="drawOpt p-2 bg-white hover:!bg-green-600 hover:text-white cursor-pointer rounded-md">
                             {/* <img width="42" src="/images/1.jpg" alt="1" /> */}
