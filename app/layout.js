@@ -74,14 +74,14 @@ export default function RootLayout({ children }) {
         <div className="min-h-screen">{children}</div>
         <div className="max-w-7xl sm:px-16">
           <div className="mx-auto grid mb-3">
-            <h3 className="text-2xl text-center mb-3">Choose Payment Method</h3>
+            <h3 className="text-lg text-center mb-3">Choose Payment Method</h3>
             <div className="bg-green-600 animate-bounce mx-auto text-white text-center text-2xl h-[48px] w-[48px] p-2 rounded-full">
               &darr;
             </div>
           </div>
           <div id="paymentMethods" className="mx-auto w-fit flex items-center mb-12 gap-2">
-            <a href="#"><img className="mix-blend-darken m-auto" src="/images/paypal.png" style={{ height: "30px" }} alt="paypal" /></a>
             <a href="#"><img className="mix-blend-darken m-auto" src="/images/stripe.png" style={{ height: "30px" }} alt="stripe" /></a>
+            <a href="#"><img className="mix-blend-darken m-auto" src="/images/paypal.png" style={{ height: "30px" }} alt="paypal" /></a>
             <a href="#"><img className="mix-blend-darken m-auto" src="/images/jazzcash.png" style={{ height: "30px" }} alt="jazzcash" /></a>
             <a href="#"><img className="mix-blend-darken m-auto" src="/images/easypaisa.png" style={{ height: "30px" }} alt="easypaisa" /></a>
           </div>

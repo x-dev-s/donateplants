@@ -14,30 +14,52 @@
     })
 
     let drawOpts = document.querySelectorAll('.drawOpt');
+    let selectedNumbers = document.querySelectorAll('.selectedNumber');
     drawOpts.forEach(opt => {
         opt.addEventListener('click', () => {
             let val = opt.lastChild.textContent;
-            let selectedNumbers = document.querySelectorAll('.selectedNumber');
             for (let i = 0; i < selectedNumbers.length; i++) {
                 if (selectedNumbers[i].textContent == "" || selectedNumbers[i].textContent == null) {
                     selectedNumbers[i].textContent = val;
-                    selectedNumbers[i].classList.toggle('bg-green-600');
-                    opt.classList.toggle('bg-green-600');
-                    opt.classList.toggle('text-white');
-                    opt.classList.toggle('bg-white');
-                    break;
-                }
-                else if (val == selectedNumbers[i].textContent) {
-                    selectedNumbers[i].textContent = "";
-                    selectedNumbers[i].classList.toggle('bg-green-600');
-                    opt.classList.toggle('bg-green-600');
-                    opt.classList.toggle('text-white');
-                    opt.classList.toggle('bg-white');
+                    // if (!selectedNumbers[i].classList.contains('bg-green-600')) {
+                    // }
+                    if (!opt.classList.contains('bg-green-600')) {
+                        opt.classList.toggle('bg-green-600');
+                        opt.classList.toggle('text-white');
+                        opt.classList.toggle('bg-white');
+                    }
                     break;
                 }
             }
-            console.log(selectedNumbers);
         })
     }
     )
+
+    selectedNumbers.forEach(num => {
+        num.addEventListener('click', () => {
+            if(num.textContent == "" || num.textContent == null) return;
+            let check = false;
+            let index = 0;
+            for (let i = 0; i < selectedNumbers.length; i++) {
+                if (selectedNumbers[i] !== num && selectedNumbers[i].textContent == num.textContent) {
+                    check = true;
+                    break;
+                }
+            }
+            if (!check) {
+            for (let i = 0; i < drawOpts.length; i++) {
+                if (drawOpts[i].lastChild.textContent == num.textContent) {
+                    check = true;
+                    index = i;
+                    break;
+                }
+            }
+                drawOpts[index].classList.toggle('bg-green-600');
+                drawOpts[index].classList.toggle('text-white');
+                drawOpts[index].classList.toggle('bg-white');
+            }
+            num.textContent = "";
+        })
+    })
+
 })();
