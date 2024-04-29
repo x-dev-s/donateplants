@@ -48,7 +48,7 @@ export default function ChangePassword() {
         urlToken = decodeURIComponent(urlToken);
         console.log(urlToken)
         setToken(urlToken);
-    }, []);
+    }, [router]);
 
     return (
         <div className="flex h-screen">
