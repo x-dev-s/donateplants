@@ -1,4 +1,15 @@
 (function () {
+    setTimeout(() => {
+        document.getElementById('pageloading').classList.add('hidden');
+    }, 2000);
+
+    document.body.addEventListener('click', (e) => {
+        // if(!document.getElementById('userDropdown').classList.contains('hidden') && e.target.id !== 'user' && e.target.tagName === 'DIV') {
+        //     console.log(e.target.tagName);
+        //     document.getElementById('userDropdown').classList.add('hidden');
+        // }
+    });
+
     let donateBtns = document.querySelectorAll('.donateBtn, .buyBtn');
     donateBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -9,7 +20,15 @@
             // let phone = btn.getAttribute('data-phone');
             // let url = `/donate/${id}/${amount}/${name}/${email}/${phone}`;
             // window.location.href = url;
-            document.getElementById('paymentMethods').scrollIntoView({ behavior: 'smooth' });
+            if (btn.classList.contains('donateBtn')) {
+                window.location.hash = 'donate';
+            } else {
+                window.location.hash = 'buy';
+            }
+            if (window.location.pathname == '/' || window.location.pathname == '/draws') {
+                document.getElementById('paymentMethodsWrapper').classList.remove('hidden');
+                document.getElementById('paymentMethods').scrollIntoView({ behavior: 'smooth' });
+            }
         })
     })
 
@@ -37,7 +56,7 @@
 
     selectedNumbers.forEach(num => {
         num.addEventListener('click', () => {
-            if(num.textContent == "" || num.textContent == null) return;
+            if (num.textContent == "" || num.textContent == null) return;
             let check = false;
             let index = 0;
             for (let i = 0; i < selectedNumbers.length; i++) {
@@ -47,13 +66,13 @@
                 }
             }
             if (!check) {
-            for (let i = 0; i < drawOpts.length; i++) {
-                if (drawOpts[i].lastChild.textContent == num.textContent) {
-                    check = true;
-                    index = i;
-                    break;
+                for (let i = 0; i < drawOpts.length; i++) {
+                    if (drawOpts[i].lastChild.textContent == num.textContent) {
+                        check = true;
+                        index = i;
+                        break;
+                    }
                 }
-            }
                 drawOpts[index].classList.toggle('bg-green-600');
                 drawOpts[index].classList.toggle('text-white');
                 drawOpts[index].classList.toggle('bg-white');

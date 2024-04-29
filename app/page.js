@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export default function Home() {
   return (
     <main className="container relative grid bg-gradient-to-bl">
-      <div id="carouselExampleIndicators" className="bg-white mx-auto w-full max-w-7xl carousel carousel-dark slide" data-bs-ride="true">
+      <div id="carouselExampleIndicators" className="bg-white mx-auto w-full carousel carousel-dark slide" data-bs-ride="true">
             <div className="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
               <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -58,7 +58,7 @@ export default function Home() {
             </button>
           </div>
 
-      <section id="mainHeading" className="mx-auto my-16 max-w-7xl sm:px-16">
+      <section id="mainHeading" className="mx-auto">
         <h1 className="text-5xl font-bold text-center text-black">Welcome to the world of <span className="text-green-500">Plants</span></h1>
         <p className="text-center text-gray-500">We are a non-profit organization that plants trees for a better ecosystem</p>
         <div className="flex justify-center mt-4">
@@ -68,7 +68,7 @@ export default function Home() {
 
       <div id="blurBackground" className="bg-black/50 backdrop-blur fixed top-0 left-0 w-full h-full z-20 hidden"></div>
 
-      <section id="about" className="mx-auto my-16 max-w-7xl sm:px-16">
+      <section id="about" className="mx-auto w-full mt-16">
         <h1 className="text-5xl font-bold text-center text-black mb-4">About Us</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div id="whoWeAre" className="relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#whoWeAre p").style.height = "85%"; document.querySelector("#whoWeAre p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whoWeAre p").style.height = "0"; document.querySelector("#whoWeAre p").style.padding = "0px" }}>
@@ -113,7 +113,7 @@ export default function Home() {
         </form>
       </div > */}
 
-      <section id="prizes" className="mx-auto my-16 max-w-7xl sm:px-16">
+      <section id="prizes" className="mx-auto my-16">
         <h1 className="text-5xl font-bold text-center text-black mb-4">Prizes</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-gray-100 rounded-md p-3">
