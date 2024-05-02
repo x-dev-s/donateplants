@@ -30,13 +30,46 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  balance: {
+    type: Number,
+    default: 0,
+  },
+  deposits: [
+    {
+      amount: Number,
+      date: Date,
+    },
+  ],
+  draws: [
+    {
+      active: Boolean,
+      drawName: String,
+      drawType: String,
+      amount: Number,
+      date: Date,
+    },
+  ],
+  donations: [
+    {
+      donationType: String,
+      amount: Number,
+      date: Date,
+    },
+  ],
+  drawsWon: [
+    {
+      drawType: String,
+      prize: String,
+      amount: Number,
+    },
+  ],
   forgotPasswordToken: String,
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,
   verifyTokenExpiry: Date,
 });
 
-const User = mongoose.models.Users || mongoose.model("Users", userSchema);
+const User = mongoose.models.USER || mongoose.model("USER", userSchema);
 
 
 export default User;

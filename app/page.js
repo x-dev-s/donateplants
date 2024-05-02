@@ -1,8 +1,5 @@
 'use client'
-import Image from "next/image";
-import Script from "next/script";
-import { useEffect } from "react";
-// import { Dropdown } from "flowbite-react";
+import { handleBuyDonate } from "@/components/header";
 
 export default function Home() {
   return (
@@ -62,7 +59,7 @@ export default function Home() {
         <h1 className="text-5xl font-bold text-center text-black">Welcome to the world of <span className="text-green-500">Plants</span></h1>
         <p className="text-center text-gray-500">We are a non-profit organization that plants trees for a better ecosystem</p>
         <div className="flex justify-center mt-4">
-          <button className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</button>
+          <button onClick={handleBuyDonate} className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</button>
         </div>
       </section>
 

@@ -21,6 +21,7 @@ export default function LoginPage() {
         try {
             if (!isValidEmail(email)) {
                 setError("Email is invalid");
+                setLoading(false);
                 return;
             }
             const res = await fetch('/api/login', {
@@ -38,11 +39,10 @@ export default function LoginPage() {
                 }, 2000);
             }
             else if (res.status === 400) {
-                setError(res.text());
+                setError('Invalid email or password');
             }
             else {
-                const data = await res.json();
-                setError(data.message);
+                setError('An unexpected error happened');
             }
         } catch (error) {
             console.error('An unexpected error happened:', error);
@@ -58,6 +58,7 @@ export default function LoginPage() {
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
                     <input
                         type="email"
+                        name="email"
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -66,6 +67,7 @@ export default function LoginPage() {
                     />
                     <input
                         type="password"
+                        name="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifyJwtToken } from "@/utils/auth";
 
-const AUTH_PAGES = ["/login/", "/register/", "/forgotpassword/", "/changePassword/", "/verifyemail/"];
+const AUTH_PAGES = ["/login/", "/register/", "/forgotpassword/"];
 
 const isAuthPages = (url) => AUTH_PAGES.some((page) => page.startsWith(url));
 
@@ -11,8 +11,6 @@ export async function middleware(request) {
   const { value: token } = cookies.get("session") ?? { value: null };
   const hasVerifiedToken = token && (await verifyJwtToken(token));
   const isAuthPageRequested = isAuthPages(nextUrl.pathname);
-
-  console.log(isAuthPageRequested, hasVerifiedToken, nextUrl.pathname);
 
   if (isAuthPageRequested) {
     if (!hasVerifiedToken) {
@@ -37,4 +35,4 @@ export async function middleware(request) {
   return NextResponse.next();
 
 }
-export const config = { matcher: ["/login", "/register", "/forgotpassword", "/changePassword", "/verifyemail", "/dashboard/:path*", "/profile"] };
+export const config = { matcher: ["/login", "/register", "/forgotpassword", "/dashboard/:path*", "/profile"] };

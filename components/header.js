@@ -31,7 +31,7 @@ export function Header() {
                                 <div className="hidden sm:block mx-auto ">
                                     <div className="flex">
                                         <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</Link>
-                                        <a href="/draws" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Draws</a>
+                                        <Link href="/draws" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Draws</Link>
                                         <Link href="/howtoplay" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">How to Play</Link>
                                         {/* <Link href="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">About Us</Link> */}
                                         {/* <Link href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact Us</Link> */}
@@ -47,7 +47,7 @@ export function Header() {
                                     <button className="donateBtn p-2 pl-1 flex items-center"><span><img className=" animate-pulse" style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></span> <span className="pl-1">Donate Now</span></button>
                                 </div>
                                 <div title="Donate" className="text-sm font-medium hover:bg-gray-700 animate-pulse rounded-md">
-                                    <button className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></button>
+                                    <button onClick={handleBuyDonate} className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></button>
                                 </div>
                                 {
                                     auth ? (
@@ -62,7 +62,7 @@ export function Header() {
                                                         <button onClick={handleLogout} className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/logout.png" alt="logout" /></span> <span className="pl-2">Logout</span></button>
                                                     </div>
                                                 </div>
-                                        </div>) : (<div id="loginLink" title="Login" className="hover:bg-gray-700 rounded-md p-2">
+                                        </div>) : (<div id="loginLink" title="Login" className="hover:bg-gray-700 cursor-pointer rounded-md p-2">
                                             <Link href="/login"><img style={{ height: "24px" }} src="/images/login.png" alt="login" /></Link>
                                         </div>)
                                 }
@@ -72,7 +72,7 @@ export function Header() {
                     <div className="h-0 bg-green-800 overflow-hidden transition-all" id="mobileMenu">
                         <div className="space-y-1 px-2 pb-3 pt-2">
                             <Link href="/" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Home</Link>
-                            <a href="/draws" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Draws</a>
+                            <Link href="/draws" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Draws</Link>
                             <Link href="/howtoplay" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">How to Play</Link>
                             {/* <Link href="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">About Us</Link> */}
                             {/* <Link href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Contact Us</Link> */}
@@ -96,4 +96,18 @@ const handleProfileClick = () => {
 const handleLogout = async () => {
     await logout();
     window.location.assign('/login');
+}
+
+export const handleBuyDonate = (e) => {
+    let btn = e.target;
+    if (btn.tagName !== 'BUTTON') btn = btn.parentElement;
+    if (btn.classList.contains('donateBtn')) {
+        window.location.hash = 'donate';
+    } else {
+        window.location.hash = 'buy';
+    }
+    if (window.location.pathname == '/' || window.location.pathname.includes('/draws/')) {
+        document.getElementById('paymentMethodsWrapper').classList.remove('hidden');
+        document.getElementById('paymentMethods').scrollIntoView({ behavior: 'smooth' });
+    }
 }

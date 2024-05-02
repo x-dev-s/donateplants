@@ -3,23 +3,25 @@
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function VerifyEmailPage() {
     const [error, setError] = useState(false);
     const [status, setStatus] = useState(false);
     const [token, setToken] = useState("");
+    const router = useRouter();
     
     useEffect(() => {
         let urlToken = window.location.search.split("=")[1];
+        if (!urlToken) {alert("Invalid Token"); router.back(); return;}
         urlToken = decodeURIComponent(urlToken);
         setToken(urlToken);
         verifyUserEmail(urlToken);
-    }, []);
+    }, [router]);
 
     const verifyUserEmail = async (token) => {
         try {
-            console.log(token);
             await axios.post('/api/verifyemail', {token})
             setError(false);
             setStatus(true);

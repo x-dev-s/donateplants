@@ -1,5 +1,7 @@
 'use client'
+import { handleBuyDonate } from "@/components/header";
 import { useEffect } from "react"
+
 export default function DrawsPage() {
     useEffect(() => {
         function CountdownTracker(label, value) {
@@ -114,20 +116,20 @@ export default function DrawsPage() {
         <div className="container mx-auto max-w-7xl sm:px-16">
             <div className="relative grid grid-cols-1 md:grid-cols-2 my-12 gap-10">
                 <div style={{ width: "100%" }} className="relative rounded-lg overflow-hidden mx-auto pb-4">
-                    <div id="drawBlurBg" className="blurBackground absolute top-0 left-0 backdrop-blur grid items-center w-full h-full z-20"><div><h2 className="text-2xl text-center mb-3 m-auto">Buy Now to Unlock the Draws</h2> <button className="buyBtn animate-pulse bg-green-600 hover:bg-green-800 p-2 w-fit h-fit rounded-md text-white mx-auto flex items-center">Buy Now</button></div></div>
+                    <div id="drawBlurBg" className="blurBackground absolute top-0 left-0 backdrop-blur grid items-center w-full h-full z-20"><div><h2 className="text-2xl text-center mb-3 m-auto">Buy Now to Unlock the Draws</h2> <button onClick={handleBuyDonate} className="buyBtn animate-pulse bg-green-600 hover:bg-green-800 p-2 w-fit h-fit rounded-md text-white mx-auto flex items-center">Buy Now</button></div></div>
                     <div className="bg-green-600 pt-4 px-4">
                         <h2 className="text-2xl text-white text-center">Pick Any 8 Numbers</h2>
                         <div id="selectedNumbers" className="grid grid-cols-4 sm:grid-cols-8 gap-4 w-fit py-6 mx-auto">
                             {/* selected numbers will be displayed here */}
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((num, index) => (
-                                <div key={index} className="selectedNumber cursor-pointer p-1 text-center bg-white w-[30px] h-[30px] rounded-md"></div>
+                                <div key={index} onClick={handleSelectedNumber} className="selectedNumber cursor-pointer p-1 text-center bg-white w-[30px] h-[30px] rounded-md"></div>
                             ))}
                         </div>
                     </div>
                     <div style={{ borderRadius: "0px 0px 10px 10px" }} className="grid grid-cols-4 bg-gray-100 px-4 py-4 lg:grid-cols-6 gap-4 mx-auto">
                         {/* from 1 to 31 */}
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31].map((num, index) => (
-                            <div key={index} className="drawOpt p-2 bg-white hover:!bg-green-600 hover:text-white cursor-pointer rounded-md">
+                            <div key={index} onClick={handleDrawOpt} className="drawOpt p-2 bg-white hover:!bg-green-600 hover:text-white cursor-pointer rounded-md">
                                 {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
                                 <h3 className="text-center">{num}</h3>
                             </div>
@@ -175,4 +177,54 @@ export default function DrawsPage() {
         </div>
 
     )
+}
+
+const handleDrawOpt = (e) => {
+    e.preventDefault();
+    let selectedNumbers = document.querySelectorAll('.selectedNumber');
+    let opt = e.target;
+    if(e.target.tagName !== 'DIV') opt = e.target.parentElement;
+    let val = opt.lastChild.textContent;
+    for (let i = 0; i < selectedNumbers.length; i++) {
+        if (selectedNumbers[i].textContent == "" || selectedNumbers[i].textContent == null) {
+            selectedNumbers[i].textContent = val;
+            // if (!selectedNumbers[i].classList.contains('bg-green-600')) {
+            // }
+            if (!opt.classList.contains('bg-green-600')) {
+                opt.classList.toggle('bg-green-600');
+                opt.classList.toggle('text-white');
+                opt.classList.toggle('bg-white');
+            }
+            break;
+        }
+    }
+}
+
+const handleSelectedNumber = (e) => {
+    e.preventDefault();
+    let drawOpts = document.querySelectorAll('.drawOpt');
+    let selectedNumbers = document.querySelectorAll('.selectedNumber');
+    let num = e.target;
+    if (num.textContent == "" || num.textContent == null) return;
+    let check = false;
+    let index = 0;
+    for (let i = 0; i < selectedNumbers.length; i++) {
+        if (selectedNumbers[i] !== num && selectedNumbers[i].textContent == num.textContent) {
+            check = true;
+            break;
+        }
+    }
+    if (!check) {
+        for (let i = 0; i < drawOpts.length; i++) {
+            if (drawOpts[i].lastChild.textContent == num.textContent) {
+                check = true;
+                index = i;
+                break;
+            }
+        }
+        drawOpts[index].classList.toggle('bg-green-600');
+        drawOpts[index].classList.toggle('text-white');
+        drawOpts[index].classList.toggle('bg-white');
+    }
+    num.textContent = "";
 }

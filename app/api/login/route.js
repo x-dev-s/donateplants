@@ -3,7 +3,7 @@ import connect from "@/utils/db"
 import bcrypt from "bcryptjs"
 import { NextResponse } from 'next/server';
 import { login } from '@/lib';
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export async function POST(request) {
   const credentials = await request.json();
@@ -27,6 +27,7 @@ export async function POST(request) {
       return new NextResponse("This email is not registered", { status: 400 });
     }
   } catch (err) {
+    console.error(err);
     throw new Error(err);
   }
 

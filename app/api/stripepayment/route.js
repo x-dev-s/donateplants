@@ -4,8 +4,7 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(request) {
     try {
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-        let data = await request.json();
-        let priceId = data.priceId
+        const { priceId, type } = await request.json()
         const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
@@ -13,9 +12,10 @@ export async function POST(request) {
                     quantity: 1
                 }
             ],
-          mode: 'payment',
-          success_url: 'http://localhost:3000',
-          cancel_url: 'http://localhost:3000',
+            submit_type: type,
+            mode: 'payment',
+            success_url: 'http://localhost:3000',
+            cancel_url: 'http://localhost:3000',
         })
         return NextResponse.json(session.url)
     } catch (error) {
