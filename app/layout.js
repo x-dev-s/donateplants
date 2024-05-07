@@ -6,6 +6,7 @@ import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import PageLoading from "@/components/pageloading";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const inter = Inter({ subsets: ["latin"] });
 

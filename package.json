@@ -10,6 +10,7 @@
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhooks/stripepayment/"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^1.0.10",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.3",

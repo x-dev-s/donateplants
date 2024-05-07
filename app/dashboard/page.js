@@ -62,7 +62,7 @@ export default function UserDashboard() {
         }
         const data = await res.json()
         // console.log(data)
-        if (!data.isAdmin) {
+        if (data.isAdmin) {
             router.push('/admin/dashboard')
             return
         }
