@@ -21,7 +21,7 @@ export async function POST(req) {
     if (event.type === "checkout.session.completed") {
       if(!event.data.object.customer_details.email) return NextResponse.json({ message: "No email found", ok: false }, { status: 400 });
       if(!event.data.object.amount_total) return NextResponse.json({ message: "No amount found", ok: false }, { status: 400 }); 
-      const res = await fetch(`http://localhost:3000/api/updatebalance`, {
+      const res = await fetch(`${process.env.DOMAIN}api/updatebalance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

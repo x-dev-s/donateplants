@@ -2,7 +2,7 @@ import User from "@/models/user"
 import connect from "@/utils/db"
 import { verifyJwtToken } from "@/utils/auth";
 import { NextResponse } from 'next/server';
-
+export const dynamic = 'force-dynamic'
 export async function GET(request) {
     await connect();
     try {

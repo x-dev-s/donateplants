@@ -1,7 +1,7 @@
 import Draw from "@/models/draws";
 import connect from "@/utils/db";
 import { NextResponse } from "next/server";
-
+export const dynamic = 'force-dynamic'
 export async function GET(request) {
     try {
         await connect();
