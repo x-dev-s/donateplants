@@ -1,51 +1,50 @@
+import Cors from "micro-cors";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 
-import { headers } from "next/headers"
-import { NextResponse } from "next/server"
-import connect from "@/utils/db"
-import User from "@/models/user"
-import Stripe from "stripe"
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE);
 
-const stripe = await Stripe(process.env.STRIPE_SECRET_KEY)
+const cors = Cors({
+  allowMethods: ["POST", "HEAD"],
+});
 
-const secret = process.env.STRIPE_WEBHOOK_SECRET || ""
+const secret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 export async function POST(req) {
   try {
-    const body = await req.text()
-
-    const signature = headers().get("stripe-signature")
-
-    const event = stripe.webhooks.constructEvent(body, signature, secret)
-
-    if (event.type == "checkout.session.completed") {
-        await connect();
-        const email = event.data.object.customer_details.email;
-        const user = await User.findOne({ email });
-        if (!user) {
-            return NextResponse.error(new Error('User not found'), 400);
-        }
-        user.balance += event.data.object.amount_total;
-        user.deposits.push({ amount: event.data.object.amount_total, date: new Date().toISOString('en-CA').split('T')[0] });
-        await user.save();
-        console.log("Payment was successful!")
-
-    //   updateDatabase(event.data.object.metadata.itinerary_id)
-    //   sendEmail(event.data.object.customer_details.email)
+    const body = await req.text();
+    
+    const signature = headers().get("stripe-signature");
+    
+    const event = stripe.webhooks.constructEvent(body, signature, secret);
+    
+    if (event.type === "checkout.session.completed") {
+      if(!event.data.object.customer_details.email) return NextResponse.json({ message: "No email found", ok: false }, { status: 400 });
+      if(!event.data.object.amount_total) return NextResponse.json({ message: "No amount found", ok: false }, { status: 400 }); 
+      const res = await fetch(`http://localhost:3000/api/updatebalance`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: event.data.object.customer_details.email,
+          type: "add",
+          amount: event.data.object.amount_total,
+          method: "Stripe",
+        }),
+      });
     }
-    else if(event.type === "payment_intent.succeeded") {
-        console.log("Payment was successful!")
-        alert("Payment was successful!")
-    }
-
-    return NextResponse.json({ result: event, ok: true })
+    
+    return NextResponse.json({ result: event, ok: true });
   } catch (error) {
-    console.error(error)
+    
+    console.error(error);
     return NextResponse.json(
       {
         message: "something went wrong",
-        ok: false
+        ok: false,
       },
       { status: 500 }
-    )
+    );
   }
 }

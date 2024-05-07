@@ -1,9 +1,13 @@
+import FAQs from "@/components/faq/faq";
 
+export const metadata = {
+    title: "FAQs",
+    description: "Frequently asked questions",
+    image: "/images/logo.png"
+}
 
-export default function FAQs(){
+export default function FAQsPage(){
     return (
-        <div>
-            FAQs
-        </div>
+        <FAQs />
     )
 }

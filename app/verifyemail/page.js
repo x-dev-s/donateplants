@@ -9,14 +9,12 @@ import { useRouter } from "next/navigation";
 export default function VerifyEmailPage() {
     const [error, setError] = useState(false);
     const [status, setStatus] = useState(false);
-    const [token, setToken] = useState("");
     const router = useRouter();
     
     useEffect(() => {
         let urlToken = window.location.search.split("=")[1];
         if (!urlToken) {alert("Invalid Token"); router.back(); return;}
         urlToken = decodeURIComponent(urlToken);
-        setToken(urlToken);
         verifyUserEmail(urlToken);
     }, [router]);
 
@@ -43,11 +41,13 @@ export default function VerifyEmailPage() {
                             <span className="block sm:inline"> There was an error verifying your email. Please try again.</span>
                         </div>
                     ) : (
-                        <div className="text-green-500 px-4 py-3 rounded relative" role="alert">
+                        <div className="text-green-500 text-center px-4 py-3 rounded relative" role="alert">
                             <strong className="font-bold">Success!</strong>
-                            <span className="block sm:inline"> Your email has been verified successfully.</span>
-                            <Link href="/login"className="text-blue-500 text-sm mt-3">Login
+                            <p className="block sm:inline"> Your email has been verified successfully.</p>
+                            <div>
+                            <Link href="/dashboard"className="text-blue-500 text-sm mt-3">Go to Dashboard
                             </Link>
+                            </div>
                         </div>
                     )
                 ) : (

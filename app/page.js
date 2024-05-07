@@ -1,7 +1,9 @@
 'use client'
-import { handleBuyDonate } from "@/components/header";
+import { handleBuyDonate } from "@/components/draws/draws";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
+  const auth = useAuth();
   return (
     <main className="container relative grid bg-gradient-to-bl">
       <div id="carouselExampleIndicators" className="bg-white mx-auto w-full carousel carousel-dark slide" data-bs-ride="true">
@@ -59,7 +61,7 @@ export default function Home() {
         <h1 className="text-5xl font-bold text-center text-black">Welcome to the world of <span className="text-green-500">Plants</span></h1>
         <p className="text-center text-gray-500">We are a non-profit organization that plants trees for a better ecosystem</p>
         <div className="flex justify-center mt-4">
-          <button onClick={handleBuyDonate} className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</button>
+          <button onClick={(e) => handleBuyDonate(e, auth)} className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</button>
         </div>
       </section>
 

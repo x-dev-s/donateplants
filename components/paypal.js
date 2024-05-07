@@ -45,7 +45,8 @@ export default function Paypal({ product, price, toConvert, selector, email }) {
                                 body: JSON.stringify({
                                     email,
                                     type: "add",
-                                    amount: price.unit_amount_decimal
+                                    amount: price.unit_amount_decimal,
+                                    method: "Paypal",
                                 }),
                             });
                             if (res.status == 200) {

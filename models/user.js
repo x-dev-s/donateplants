@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
   deposits: [
     {
       amount: Number,
-      date: Date,
+      method: String,
+      date: {
+        type: Date,
+        default: Date.now(),
+      }
     },
   ],
   draws: [
@@ -45,7 +49,7 @@ const userSchema = new mongoose.Schema({
       active: Boolean,
       drawName: String,
       drawType: String,
-      amount: Number,
+      numbers: [Number],
       date: Date,
     },
   ],
@@ -58,7 +62,7 @@ const userSchema = new mongoose.Schema({
   ],
   drawsWon: [
     {
-      drawType: String,
+      drawId: String,
       prize: String,
       amount: Number,
     },
@@ -67,6 +71,10 @@ const userSchema = new mongoose.Schema({
   forgotPasswordTokenExpiry: Date,
   verifyToken: String,
   verifyTokenExpiry: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 const User = mongoose.models.USER || mongoose.model("USER", userSchema);

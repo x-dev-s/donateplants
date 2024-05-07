@@ -29,7 +29,6 @@ export default function RootLayout({ children }) {
         <Header />
         <div className="min-h-screen">{children}</div>
         <Footer />
-        <script async src="/js/script.js" type="text/javascript"></script>
       </body>
     </html>
   );

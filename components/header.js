@@ -2,7 +2,7 @@
 import { logout } from "@/lib"
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-import Image from "next/image";
+import { handleBuyDonate } from "./draws/draws";
 
 export function Header() {
     const auth = useAuth();
@@ -47,7 +47,7 @@ export function Header() {
                                     <button className="donateBtn p-2 pl-1 flex items-center"><span><img className=" animate-pulse" style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></span> <span className="pl-1">Donate Now</span></button>
                                 </div>
                                 <div title="Donate" className="text-sm font-medium hover:bg-gray-700 animate-pulse rounded-md">
-                                    <button onClick={handleBuyDonate} className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></button>
+                                    <button onClick={(e) => handleBuyDonate(e, auth)} className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></button>
                                 </div>
                                 {
                                     auth ? (
@@ -55,13 +55,13 @@ export function Header() {
                                             <div id="user" className="relative hover:bg-gray-700 cursor-pointer rounded-md p-2" onClick={handleProfileClick}>
                                                 <a role="button"><img style={{ height: "24px" }} src="/images/person.png" alt="logout" /></a>
                                             </div>
-                                                <div id="userDropdown" className="hidden absolute top-[100%] right-[-8px] p-2" style={{width: "max-content"}}>
-                                                    <div className="bg-gray-700 text-gray-300 text-sm font-medium rounded-md ml-3 overflow-hidden">
-                                                        <button className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/profile.png" alt="profile" /></span> <span className="pl-2">Profile</span></button>
-                                                        <Link className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white" href="/dashboard"><span><img style={{ height: "18px" }} src="/images/dashboard.png" alt="dashboard" /></span> <span className="pl-2">Dashboard</span></Link>
-                                                        <button onClick={handleLogout} className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/logout.png" alt="logout" /></span> <span className="pl-2">Logout</span></button>
-                                                    </div>
+                                            <div id="userDropdown" className="hidden absolute top-[100%] right-[-8px] p-2" style={{ width: "max-content" }}>
+                                                <div className="bg-gray-700 text-gray-300 text-sm font-medium rounded-md ml-3 overflow-hidden">
+                                                    {/* <button className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/profile.png" alt="profile" /></span> <span className="pl-2">Profile</span></button> */}
+                                                    <Link className="p-2 w-full flex items-center text-gray-300 hover:bg-gray-900 hover:text-white" href="/dashboard"><span><img style={{ height: "18px" }} src="/images/dashboard.png" alt="dashboard" /></span> <span className="pl-2">Dashboard</span></Link>
+                                                    <button onClick={handleLogout} className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/logout.png" alt="logout" /></span> <span className="pl-2">Logout</span></button>
                                                 </div>
+                                            </div>
                                         </div>) : (<div id="loginLink" title="Login" className="hover:bg-gray-700 cursor-pointer rounded-md p-2">
                                             <Link href="/login"><img style={{ height: "24px" }} src="/images/login.png" alt="login" /></Link>
                                         </div>)
@@ -96,18 +96,4 @@ const handleProfileClick = () => {
 const handleLogout = async () => {
     await logout();
     window.location.assign('/login');
-}
-
-export const handleBuyDonate = (e) => {
-    let btn = e.target;
-    if (btn.tagName !== 'BUTTON') btn = btn.parentElement;
-    if (btn.classList.contains('donateBtn')) {
-        window.location.hash = 'donate';
-    } else {
-        window.location.hash = 'buy';
-    }
-    if (window.location.pathname == '/' || window.location.pathname.includes('/draws/')) {
-        document.getElementById('paymentMethodsWrapper').classList.remove('hidden');
-        document.getElementById('paymentMethods').scrollIntoView({ behavior: 'smooth' });
-    }
 }

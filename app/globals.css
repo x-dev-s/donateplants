@@ -188,3 +188,20 @@ a{
 .carousel-item img:hover{
   transform: scale(1.1);
 }
+
+
+div[class*="overflow-auto"]::-webkit-scrollbar {
+  display: initial;
+  width: 3px;
+}
+div[class*="overflow-auto"]::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+div[class*="overflow-auto"]::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+td{
+  vertical-align: middle;
+}

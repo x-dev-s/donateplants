@@ -4,14 +4,24 @@ import { verifyJwtToken } from "@/utils/auth";
 import { NextResponse } from 'next/server';
 
 export async function GET(request) {
-    const {cookies} = request;
-    const { value: token } = cookies.get("session") ?? { value: null };
-    const user = token && (await verifyJwtToken(token));
-    const id = user.id;
     await connect();
     try {
-        const user = await User.findOne({ id });
+        const { cookies } = request;
+        const { value: token } = cookies.get("session") ?? { value: null };
+        if (!token) {
+            return new NextResponse("User not logged in", { status: 401 });
+        }
+        const tokendata = token && (await verifyJwtToken(token));
+        const user = await User.findOne({ _id: tokendata.user.id });
         if (user) {
+            let prop = await request.url.split('?')[1];
+            if (user.isAdmin && prop && prop.includes('all=true')) {
+                const users = await User.find();
+                if (!users) {
+                    return new NextResponse("No users found", { status: 400 });
+                }
+                return new NextResponse(JSON.stringify({ user, users }), { status: 200 });
+            }
             return new NextResponse(JSON.stringify(user), { status: 200 });
         }
         else {

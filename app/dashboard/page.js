@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import Paypal from '@/components/paypal'
 import IntlTelInput from 'intl-tel-input/react';
 import "intl-tel-input/build/css/intlTelInput.min.css";
+import { useRouter } from 'next/navigation'
 
 const errorMap = [
     "Invalid number",
@@ -26,11 +27,13 @@ export default function UserDashboard() {
     const [verified, setVerified] = useState(false)
     const [draws, setDraws] = useState([])
     const [donations, setDonations] = useState([])
+    const [deposits, setDeposits] = useState([])
     const [drawsWon, setDrawsWon] = useState([])
     const [notice, setNotice] = useState(null);
     const [errorCode, setErrorCode] = useState(null);
     const [isValid, setIsValid] = useState(null);
     const [changedPhone, changePhone] = useState(null);
+    const router = useRouter();
 
     const handlePhoneValidation = () => {
         if (isValid) {
@@ -55,11 +58,14 @@ export default function UserDashboard() {
                 }
             })
         if (!res.ok) {
-            console.error('Error fetching user data')
             return
         }
         const data = await res.json()
         // console.log(data)
+        if (!data.isAdmin) {
+            router.push('/admin/dashboard')
+            return
+        }
         setUserId(data._id)
         setName(data.name)
         setEmail(data.email)
@@ -68,22 +74,25 @@ export default function UserDashboard() {
         setVerified(data.isVerified)
         setDraws(data.draws || [])
         setDonations(data.donations || [])
+        setDeposits(data.deposits || [])
         setDrawsWon(data.drawsWon || [])
     }
 
     useEffect(() => {
-        getUserData()
+        if (document.cookie.includes('session')) {
+            getUserData();
+        }
     }, [])
 
     return (
-        <div className="container mx-auto">
+        <div className="container my-5 mx-auto">
             {name ?
                 (
                     <>
-                        <div className='flex items-center justify-between bg-gray-100 mt-5 p-2 rounded-lg'>
+                        <div className='flex items-center justify-between bg-gray-100 p-2 rounded-lg'>
                             <div>
                                 <div className='items-baseline flex flex-wrap'>
-                                    <h1 className='text-lg md:text-3xl font-bold p-1'>Welcome <span className='text-green-600'>{name}</span></h1>
+                                    <h1 className='text-lg md:text-3xl font-bold p-1'>Welcome <span className='text-green-600'>{name.split(' ')[0]}</span></h1>
                                     {verified ? (
                                         <div>
                                             <img src='/images/verified.png' className='w-4 h-4' alt='verified' />
@@ -92,8 +101,8 @@ export default function UserDashboard() {
                                         <p className='text-xs text-red-500 p-1'>Not verified</p>
                                     )}
                                 </div>
-                                <p className='text-md text-gray-500 p-1'>{email}</p>
-                                <p className='text-md text-gray-500 p-1'>{phone}</p>
+                                <p className='text-sm text-gray-500 p-1'>{email}</p>
+                                <p className='text-sm text-gray-500 p-1'>{phone}</p>
                                 <div className='flex flex-wrap items-center'>
                                     <a role='button' onClick={() => handleChangePassword(email)}>
                                         <span className='text-xs text-green-500 p-1'>Change Password</span>
@@ -173,62 +182,121 @@ export default function UserDashboard() {
                             <DashboardCard image='/images/activedraws.png' name='Active Draws' value={draws.filter(draw => draw.active).length || 0} />
                             <DashboardCard image='/images/drawswon.png' name='Draws Won' value={drawsWon.length} />
                         </div>
-                        <div className='grid grid-cols-1 md:grid-cols-2 gap-3 text-center justify-between mt-3 mb-5'>
-                            <div className='bg-gray-100 rounded-lg p-2 h-[500px]'>
+                        <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
+                            <div className='bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Draws</h1>
-                                <table className='w-full h-full overflow-auto text-gray-500'>
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Date</th>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {draws.map((draw, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{draw.date}</td>
-                                                <td>{draw.drawName}</td>
-                                                <td>{draw.drawType}</td>
-                                                <td>{draw.amount}</td>
-                                                <td>{draw.active ? 'Active' : 'Inactive'}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                {draws.length === 0 ? (
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                                        <div className='m-auto'>
+                                            <h2 className='text-2xl'>No draws bought</h2>
+                                            <Link href='/draws' className='text-green-500'>Buy Now</Link>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
+                                        <table className='table text-sm w-full h-full text-gray-500'>
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>Date</th>
+                                                    <th>Name</th>
+                                                    <th>Type</th>
+                                                    <th>Numbers</th>
+                                                    <th>Active</th>
+                                                    <th>Won</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {draws.toReversed().map((draw, index) => (
+                                                    <tr key={index}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{draw.date.split('T')[0]}</td>
+                                                        <td>{draw.drawName}</td>
+                                                        <td>{draw.drawType}</td>
+                                                        <td>{draw.numbers.length > 0 ? draw.numbers.join(', ') : 'Not submitted'}</td>
+                                                        <td>{draw.active ? (<span className="text-green-500">&#10004;</span>) : (<span className="text-red-500">&#10006;</span>)}</td>
+                                                        <td>{drawsWon.find(drawWon => drawWon.drawId === draw._id) ? (<span className="text-green-500">&#10004;</span>) : (<span className="text-red-500">&#10006;</span>)}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
-                            <div className='bg-gray-100 rounded-lg p-2 h-[500px]'>
+                            <div className='bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Donations</h1>
-                                <table className='w-full h-full overflow-auto text-gray-500'>
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Date</th>
-                                            <th>Type</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {donations.map((donation, index) => (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{donation.date}</td>
-                                                <td>{donation.donationType}</td>
-                                                <td>{donation.amount}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                {donations.length === 0 ? (
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                                        <div className='m-auto'>
+                                            <h2 className='text-2xl'>No donations made</h2>
+                                            <Link href='/draws' className='text-green-500'>Donate Now</Link>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
+                                        <table className='table text-sm w-full h-full text-gray-500'>
+                                            <thead>
+                                                <tr>
+                                                    <th>No.</th>
+                                                    <th>Date</th>
+                                                    <th>Type</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {donations.toReversed().map((donation, index) => (
+                                                    <tr key={index}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{donation.date.split('T')[0]}</td>
+                                                        <td>{donation.donationType}</td>
+                                                        <td>{pkr.format(donation.amount / 100)}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
+                        </div>
+                        <div className='bg-gray-100 rounded-lg p-2 mt-3 text-center'>
+                            <h1 className='text-xl font-bold mb-3'>Deposits</h1>
+                            {deposits.length === 0 ? (
+                                <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                                    <div className='m-auto'>
+                                        <h2 className='text-2xl'>No deposits made</h2>
+                                        <Link href='/draws' className='text-green-500'>Deposit Now</Link>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
+                                    <table className='table text-sm w-full h-full text-gray-500'>
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Method</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {deposits.toReversed().map((deposit, index) => (
+                                                <tr key={index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{deposit.date.split('T')[0]}</td>
+                                                    <td>{pkr.format(deposit.amount / 100)}</td>
+                                                    <td>{deposit.method}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )}
                         </div>
                         <div id="paymentMethodsWrapper" className="hidden fixed flex items-center justify-center top-0 left-0 h-screen w-full z-40">
                             <div className='bg-black/50 w-full h-screen fixed top-0 left-0 backdrop-blur'></div>
                             <div className=" bg-white p-3 rounded-lg fixed grid items-center justify-center w-full h-full sm:w-[500px] sm:h-[300px] z-50">
                                 <div>
+                                    <button id='backbtn' className='hidden absolute top-0 left-0 p-2 text-lg' onClick={() => { document.getElementById('paymentMethods').classList.remove('hidden'); document.getElementById('customAmountForm').classList.add('hidden'); document.getElementById('paymentMethodsIndicator').classList.remove('hidden'); document.getElementById('paypalBuyDiv').classList.add('hidden'); document.getElementById('backbtn').classList.add('hidden') }}>&larr;</button>
                                     <button className='absolute top-0 right-0 p-2 text-2xl' onClick={() => document.getElementById('paymentMethodsWrapper').classList.add('hidden')}>&times;</button>
                                     <div id='paymentMethodsIndicator' className="mx-auto grid">
                                         <h3 className="text-lg text-center mb-3">Choose Payment Method</h3>
@@ -257,7 +325,7 @@ export default function UserDashboard() {
                 ) : (
                     <div className='text-center h-screen w-full flex items-center'>
                         <div className='m-auto flex items-center'>
-                            <h2 className='text-4xl'>Please wait</h2><span className='ml-2 mt-[12px]'><img src='/images/loading4.gif' className='w-[35px] h-[35px]' alt='loading' /></span>
+                            <h2 className='text-4xl'>Please wait</h2><span className='ml-2 mt-[12px]'><img src='/images/loading2.gif' className='w-[30px] h-[30px]' alt='loading' /></span>
                         </div>
                     </div>
                 )
@@ -296,7 +364,7 @@ const handleChangeName = async (e, userId) => {
 
 const handleChangePhone = async (e, userId, phone) => {
     e.preventDefault()
-    const res = await axios.post('/api/changeuserdata', { userId, property: 'phone', value: phone})
+    const res = await axios.post('/api/changeuserdata', { userId, property: 'phone', value: phone })
     if (res.status !== 200) {
         console.error('Error changing phone number')
         return
@@ -319,6 +387,8 @@ const handlePaymentMethod = async (e, email) => {
         document.getElementById('customAmountForm').classList.remove('hidden');
         document.getElementById('paymentMethods').classList.add('hidden');
         document.getElementById('paymentMethodsIndicator').classList.add('hidden');
+        document.getElementById('paypalBuyDiv').classList.remove('hidden');
+        document.getElementById('backbtn').classList.remove('hidden');
         return
     }
     // if (window.location.hash == "#donate" || window.location.hash == "") {
@@ -346,10 +416,11 @@ const handleCustomAmount = async (e, email) => {
         document.getElementById('customAmountError').classList.remove('hidden');
         return
     }
-    e.target.innerHTML = "Processing...";
+    if (document.querySelector('.paypal-buttons')) return;
     let product = { id: "123212", description: "Deposit amount to your account" };
     let price = { unit_amount_decimal: amount * 100 };
     let selector = "paypalBuyDiv";
-    ReactDOM.render(<Paypal key={product.id} product={product} price={price} toConvert={false} selector={selector} email={email}/>, document.getElementById(selector));
+    ReactDOM.render(<Paypal key={product.id} product={product} price={price} toConvert={false} selector={selector} email={email} />, document.getElementById(selector));
     document.getElementById('customAmountForm').classList.add('hidden');
+
 }
