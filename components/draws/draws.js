@@ -137,7 +137,7 @@ export function Draws({ user, Draw, mainindex }) {
                     {!user || user.draws.filter(draw => draw.drawType == Draw.drawType && draw.active && draw.numbers.length == 0).length == 0 ? (<div id={Draw.drawType + "DrawBlurBg" + mainindex} className="blurBackground absolute top-0 left-0 backdrop-blur grid items-center w-full h-full z-20"><div><h2 className="text-2xl text-center mb-3 m-auto">Buy Now to Unlock the Draws</h2> <button onClick={(e) => handleBuyDonate(e, user)} className="buyBtn animate-pulse bg-green-600 hover:bg-green-800 p-2 w-fit h-fit rounded-md text-white mx-auto flex items-center">Buy Now</button></div></div>) : null}
                     <div className="bg-green-600 pt-4 pb-4 px-4">
                         <h1 className="text-3xl font-semibold text-white text-center">{Draw.drawName}</h1>
-                        <h2 className="text-gray-200 text-center mt-2">Pick Any 8 Numbers</h2>
+                        <p className="text-gray-200 text-center mt-2">Pick Any 8 Numbers</p>
                         <div id={Draw.drawType + "SelectedNumbers" + mainindex} className="grid grid-cols-4 sm:grid-cols-8 gap-4 w-fit pt-6 pb-3 mx-auto">
                             {/* selected numbers will be displayed here */}
                             {Array.from({ length: Draw.toSelect }, (_, i) => i + 1).map((num, index) => (
@@ -149,12 +149,12 @@ export function Draws({ user, Draw, mainindex }) {
                     <div style={{ borderRadius: "0px 0px 10px 10px" }} className="grid grid-cols-4 bg-gray-100 px-4 py-4 lg:grid-cols-6 gap-4 mx-auto">
                         {/* from 1 to 31 */}
                         {Draw.numbers.map((num, index) => (
-                            <div key={index} onClick={(e) => handleDrawOpt(e, Draw.drawType, mainindex)} className={`${Draw.drawType}DrawOpt p-2 bg-white hover:!bg-green-600 hover:text-white cursor-pointer rounded-md`}>
-                                {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
-                                <h3 className="text-center">{num}</h3>
+                            <div key={index} onClick={(e) => handleDrawOpt(e, Draw.drawType, mainindex)} className={`${Draw.drawType}DrawOpt p-2 bg-white flex items-center justify-center hover:!bg-green-600 hover:text-white cursor-pointer rounded-md`}>
+                                <span className="text-center text-lg">{num}</span>
                             </div>
                         ))}
                     </div>
+                        {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
                 </div>
                 <div id={Draw.drawType + "Drawside" + mainindex} className="relative" suppressHydrationWarning>
                     <h2 className="text-2xl text-center mb-3">Winning Prizes</h2>
@@ -219,7 +219,7 @@ const handleConfirmDraw = async (e, email, type, index) => {
     }
     if (!check) return;
     e.target.disabled = true;
-    e.target.textContent = `<img class="mx-auto" width="20" height="20" src="/images/loading.gif" alt="Loading..."/>`
+    e.target.innerHTML = `<img class="mx-auto" width="20" height="20" src="/images/loading.gif" alt="Loading..."/>`
     let numbers = [];
     for (let i = 0; i < selectedNumbers.length; i++) {
         if (selectedNumbers[i].textContent == "" || selectedNumbers[i].textContent == null) {
@@ -248,4 +248,39 @@ const handleConfirmDraw = async (e, email, type, index) => {
 export const handleBuyDonate = async (e, user) => {
     if (!user) return window.location.assign('/login?next=/draws/');
     document.getElementById('buyDonate').classList.remove('hidden');
+}
+
+export const handleSelectedNumber = (e, type, index) => {
+    let val = e.target.textContent;
+    let drawOpts = document.querySelectorAll(`#${type}Draw${index} .${type}DrawOpt`);
+    for (let i = 0; i < drawOpts.length; i++) {
+        if (drawOpts[i].textContent == val) {
+            drawOpts[i].classList.remove('bg-green-600', 'text-white');
+            drawOpts[i].classList.add('bg-white');
+            console.log(drawOpts[i]);
+            e.target.textContent = "";
+            break;
+        }
+    }
+}
+
+
+
+export const handleDrawOpt = (e, type, index) => {
+    if(e.target.tagName === 'SPAN') e.target = e.target.parentElement;
+    let selectedNumbers = document.querySelectorAll(`#${type}Draw${index} .${type}SelectedNumber`);
+    for (let i = 0; i < selectedNumbers.length; i++) {
+        if (selectedNumbers[i].textContent == e.target.textContent) {
+            return;
+        }
+    }
+    for (let i = 0; i < selectedNumbers.length; i++) {
+        if (selectedNumbers[i].textContent == "" || selectedNumbers[i].textContent == null) {
+            selectedNumbers[i].textContent = e.target.textContent;
+            selectedNumbers[i].classList.remove('border-2', 'border-red-600');
+            e.target.classList.remove('bg-white');
+            e.target.classList.add('bg-green-600', 'text-white');
+            break;
+        }
+    }
 }
