@@ -29,6 +29,10 @@ img {
   object-fit: contain;
 }
 
+h1, h2, h3, h4, h5, h6 , p{
+  margin: 0 !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -204,4 +208,8 @@ div[class*="overflow-auto"]::-webkit-scrollbar-track {
 
 td{
   vertical-align: middle;
+}
+
+.collapse{
+  visibility: visible !important;
 }

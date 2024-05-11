@@ -9,9 +9,9 @@ export const metadata = {
 export default function HowToPlay(){
 
     return (
-        <div className="container mx-auto text-center my-5">
+        <div className="container mx-auto text-center py-5">
             <h1>How to Play</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-32 gap-x-4 pt-36 pb-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-32 gap-x-4 pt-36">
                 <Card title="Step 1" description="Create an account" image="/images/howtoplay/step1.png" />
                 <Card title="Step 2" description="Deposit money" image="/images/howtoplay/step2.png" />
                 <Card title="Step 3" description="Make a donation" image="/images/howtoplay/step3.png" />

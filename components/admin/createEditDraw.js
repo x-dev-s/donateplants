@@ -35,6 +35,18 @@ export default function CreateEditDraw({ action }) {
                         <input required min={1} type="number" id="editdrawtoSelect" className="rounded-md" />
                     </div>
                     <div className="flex flex-col gap-2">
+                        <label htmlFor="First Prize">First Prize</label>
+                        <input required type="text" id="editdrawFirstPrize" className="rounded-md" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="Second Prize">Second Prize</label>
+                        <input required type="text" id="editdrawSecondPrize" className="rounded-md" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="Third Prize">Third Prize</label>
+                        <input required type="text" id="editdrawThirdPrize" className="rounded-md" />
+                    </div>
+                    <div className="flex flex-col gap-2">
                         <label htmlFor="isActive">Active</label>
                         <select id="editdrawisActive" required className="rounded-md">
                             <option value="true">True</option>
@@ -66,8 +78,18 @@ const handleSubmit = async (e, action) => {
             enddate: document.getElementById('editdrawenddate').value,
 
         }
+        !parseInt(document.getElementById('editdrawFirstPrize').value) ? data.prizes = [document.getElementById('editdrawFirstPrize').value] : data.prizes = [parseInt(document.getElementById('editdrawFirstPrize').value * 100)]
+
+        !parseInt(document.getElementById('editdrawSecondPrize').value) ? data.prizes.push(document.getElementById('editdrawSecondPrize').value) : data.prizes.push(parseInt(document.getElementById('editdrawSecondPrize').value * 100))
+
+        !parseInt(document.getElementById('editdrawThirdPrize').value) ? data.prizes.push(document.getElementById('editdrawThirdPrize').value) : data.prizes.push(parseInt(document.getElementById('editdrawThirdPrize').value * 100))
+
         if (document.getElementById('editdrawnumbers').value !== '') data.numbers = document.getElementById('editdrawnumbers').value.split(',').filter(el => el !== ''); // Remove empty strings
         if (document.getElementById('editdrawwinningNumbers').value !== '') data.winningNumbers = document.getElementById('editdrawwinningNumbers').value.split(',').filter(el => el !== ''); // Remove empty strings
+        else {
+            data.winningNumbers = [];
+        }
+        console.log(data);
         const res = await axios.post("/api/admin/createeditdraw", { action, data });
         if (res.ok || res.status === 200) {
             document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Saved`

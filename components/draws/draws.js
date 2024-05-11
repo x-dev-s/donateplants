@@ -227,6 +227,8 @@ const handleConfirmDraw = async (e, email, type, index) => {
         }
         numbers.push(parseInt(selectedNumbers[i].textContent));
     }
+    //sorting numbers in ascending order
+    numbers.sort((a, b) => a - b);
     console.log(email, type, numbers);
     const res = await fetch('/api/submitdraw',
         {
@@ -252,6 +254,7 @@ export const handleBuyDonate = async (e, user) => {
 
 export const handleSelectedNumber = (e, type, index) => {
     let val = e.target.textContent;
+    if (val == "" || val == null) return;
     let drawOpts = document.querySelectorAll(`#${type}Draw${index} .${type}DrawOpt`);
     for (let i = 0; i < drawOpts.length; i++) {
         if (drawOpts[i].textContent == val) {

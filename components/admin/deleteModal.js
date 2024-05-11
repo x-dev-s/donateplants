@@ -17,12 +17,13 @@ export default function DeleteModal({ type, name }) {
 
 const handleDeleteAction = async (e, type, name) => {
     try {
-        let action = 'delete';
+        let action = 'delete'
         e.preventDefault();
         e.target.disabled = true;
         e.target.innerHTML = `<img class="mx-auto" width="20" height="20" src="/images/loading.gif" alt="Loading..."/>`;
         if(type == 'draw') var res = await axios.post("/api/admin/createeditdraw", {action, data: {drawName: name}});
         else if(type == 'pkg') var res = await axios.post("/api/admin/createeditpkg", {action, data: {name}});
+        else if(type == 'notifications') var res = await axios.post("/api/admin/readdeletenotification", {notificationId: name, action: "deleteAll"});
         if(res.status === 200) {
             e.target.innerHTML = 'Deleted';
             setTimeout(() => {

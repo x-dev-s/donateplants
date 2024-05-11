@@ -30,11 +30,11 @@ export default function FAQs() {
                         <div className="accordion" id="accordionExample">
                             <div className="accordion-item">
                                 <h2 className="accordion-header" id={`heading${mainindex}`}>
-                                    <button className="accordion-button collapsed" type="button" onClick={handleClick} data-bs-toggle="collapse" aria-expanded="false" data-bs-target={`#collapse${mainindex}`} aria-controls={`collapse${mainindex}`}>
+                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target={`#collapse${mainindex}`} aria-controls={`collapse${mainindex}`}>
                                         {category.name}
                                     </button>
                                 </h2>
-                                <div id={`collapse${mainindex}`} className="accordion-collapse visually-hidden " aria-labelledby={`heading${mainindex}`} data-bs-parent="#accordionExample">
+                                <div id={`collapse${mainindex}`} className="accordion-collapse collapse" aria-labelledby={`heading${mainindex}`} data-bs-parent="#accordionExample">
                                     <div className="accordion-body">
                                         {
                                             category.data.map((faq, index) =>
@@ -58,13 +58,4 @@ export default function FAQs() {
             
         </div>
     )
-}
-
-const handleClick = (e) => {
-    const target = e.target;
-    // target.classList.toggle('collapsed');
-    const parent = target.parentElement;
-    const collapse = parent.nextElementSibling;
-    collapse.classList.toggle('visually-hidden');
-    collapse.classList.toggle('visible');
 }

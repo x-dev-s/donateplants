@@ -30,9 +30,13 @@ const drawSchema = new mongoose.Schema({
         type: Number,
         default: 8,
     },
+    prizes: {
+        type: [String],
+        default: [],
+    },
     createddate: {
         type: Date,
-        default: Date.now(),
+        default: new Date().toISOString(),
     },
     enddate: {
         type: Date,
@@ -40,6 +44,6 @@ const drawSchema = new mongoose.Schema({
     },
     });
 
-const Draw = mongoose.models.Draw || mongoose.model("Draw", drawSchema);
+const Draw = mongoose.models.DRAW || mongoose.model("DRAW", drawSchema);
 
 export default Draw;

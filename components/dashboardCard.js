@@ -5,7 +5,7 @@ export default function DashboardCard({ image, name, value}) {
                 <img className="w-auto h-[90%]" src={image} alt={name} />
             </div>
             <div className="text-end">
-                <h3 className="text-green-600 font-bold text-3xl">{value}</h3>
+                <h3 className="text-green-600 font-bold text-2xl">{value}</h3>
                 <p className="text-gray-500 text-sm mt-2">{name}</p>
             </div>
         </div>

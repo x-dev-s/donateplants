@@ -1,6 +1,7 @@
 import connect from "@/utils/db"
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/models/user";
+import Admin from "@/models/admin";
 
 await connect()
 
@@ -21,6 +22,12 @@ export async function POST(request){
         user.isVerified = true;
         user.verifyToken = null;
         user.verifyTokenExpiry = null;
+        const admin = await Admin.findOne({id: "admin"});
+        if (!admin) {
+            return NextResponse.json({error: "Admin not found"}, {status: 404})
+        }
+        admin.verifiedUsers += 1;
+        await admin.save();
         await user.save();
         
         return NextResponse.json({

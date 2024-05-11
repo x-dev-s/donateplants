@@ -1,67 +1,19 @@
 'use client'
-import { handleBuyDonate } from "@/components/draws/draws";
+import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import Carousel from "@/components/home/carousel";
 
 export default function Home() {
   const auth = useAuth();
   return (
     <main className="container relative grid bg-gradient-to-bl">
-      <div id="carouselExampleIndicators" className="bg-white mx-auto w-full carousel carousel-dark slide" data-bs-ride="true">
-            <div className="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
-              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
-            </div>
-            <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img src="/images/tree.png" className="d-block m-auto" style={{ height: "500px" }} alt="plant1" />
-                <div className="carousel-caption bg-black/50">
-                  <p className="text-white">Help us plant trees for a better ecosystem</p>
-                  {/* <button className="bg-green-600 hover:bg-green-800 text-white font-bold mt-2 py-2 px-4 rounded">Donate Now</button> */}
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src="/images/carousel2.png" className="d-block m-auto" style={{ height: "500px" }} alt="plant2" />
-                <div className="carousel-caption bg-black/50">
-                  <p className="text-white">Save the planet by planting trees</p>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src="/images/prize1.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize1" />
-                <div className="carousel-caption bg-black/50">
-                  <p className="text-white">First prize</p>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src="/images/prize2.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize2" />
-                <div className="carousel-caption bg-black/50">
-                  <p className="text-white">Second prize</p>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img src="/images/prize3.png" className="d-block m-auto" style={{ height: "500px" }} alt="prize3" />
-                <div className="carousel-caption bg-black/50">
-                  <p className="text-white">Third prize</p>
-                </div>
-              </div>
-            </div>
-            <button className="carousel-control-prev absolute" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
+      <Carousel />
 
       <section id="mainHeading" className="mx-auto">
         <h1 className="text-5xl font-bold text-center text-black">Welcome to the world of <span className="text-green-500">Plants</span></h1>
         <p className="text-center text-gray-500">We are a non-profit organization that plants trees for a better ecosystem</p>
         <div className="flex justify-center mt-4">
-          <button onClick={(e) => handleBuyDonate(e, auth)} className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</button>
+          <Link href="/draws" className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</Link>
         </div>
       </section>
 
@@ -70,20 +22,20 @@ export default function Home() {
       <section id="about" className="mx-auto w-full mt-16">
         <h1 className="text-5xl font-bold text-center text-black mb-4">About Us</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div id="whoWeAre" className="relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#whoWeAre p").style.height = "85%"; document.querySelector("#whoWeAre p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whoWeAre p").style.height = "0"; document.querySelector("#whoWeAre p").style.padding = "0px" }}>
+          <div id="whoWeAre" className="relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#whoWeAre p").style.height = "auto"; document.querySelector("#whoWeAre p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whoWeAre p").style.height = "0"; document.querySelector("#whoWeAre p").style.padding = "0px" }}>
             <img className="mix-blend-darken m-auto" src="/images/about.png" style={{ height: "200px" }} alt="about" />
             <h2 className="text-3xl font-bold text-center text-black">Who We Are?</h2>
-            <p id="whoWeAre" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 bottom-0 left-0 bg-black/80 transition-all">We are a non-profit organization that plants trees for a better ecosystem. Our mission is to help restore the ecosystem by planting trees in deforested areas. We also educate the community on the importance of trees and how to care for them.</p>
+            <p id="whoWeAre" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 max-h-full bottom-0 left-0 bg-black/80 transition-all">We are a non-profit organization that plants trees for a better ecosystem. Our mission is to help restore the ecosystem by planting trees in deforested areas. We also educate the community on the importance of trees and how to care for them.</p>
           </div>
-          <div id="whatWeOffer" className="relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#whatWeOffer p").style.height = "85%"; document.querySelector("#whatWeOffer p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whatWeOffer p").style.height = "0"; document.querySelector("#whatWeOffer p").style.padding = "0px" }}>
+          <div id="whatWeOffer" className="relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#whatWeOffer p").style.height = "auto"; document.querySelector("#whatWeOffer p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whatWeOffer p").style.height = "0"; document.querySelector("#whatWeOffer p").style.padding = "0px" }}>
             <img className="mix-blend-darken m-auto" src="/images/services.svg" style={{ height: "200px" }} alt="services" />
             <h2 className="text-3xl font-bold text-center text-black">What We Offer?</h2>
-            <p id="whatWeOffer" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 bottom-0 left-0 bg-black/80 transition-all">We provide tree planting services to individuals, businesses, and organizations. Our services include planting trees in deforested areas, educating the community on the importance of trees, and providing care instructions for trees.</p>
+            <p id="whatWeOffer" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 max-h-full bottom-0 left-0 bg-black/80 transition-all">We provide tree planting services to individuals, businesses, and organizations. Our services include planting trees in deforested areas, educating the community on the importance of trees, and providing care instructions for trees.</p>
           </div>
-          <div id="contactUs" className="col-span-1 sm:col-span-2 lg:col-span-1 relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#contactUs p").style.height = "85%"; document.querySelector("#contactUs p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#contactUs p").style.height = "0"; document.querySelector("#contactUs p").style.padding = "0px" }}>
+          <div id="contactUs" className="col-span-1 sm:col-span-2 lg:col-span-1 relative cursor-pointer bg-gray-100 rounded-md p-3" onMouseEnter={() => { document.querySelector("#contactUs p").style.height = "auto"; document.querySelector("#contactUs p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#contactUs p").style.height = "0"; document.querySelector("#contactUs p").style.padding = "0px" }}>
             <img className="mix-blend-darken m-auto" src="/images/contact.png" style={{ height: "200px" }} alt="contact" />
             <h2 className="text-3xl font-bold text-center text-black">Contact Us</h2>
-            <p id="contactUs" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 w-full bottom-0 left-0 bg-black/80 transition-all">For more information on our services, please contact us at 123-456-7890 or email us at
+            <p id="contactUs" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 max-h-full w-full bottom-0 left-0 bg-black/80 transition-all">For more information on our services, please contact us at 123-456-7890 or email us at
               <a className="hover:underline" href="mailto:info@plants.com">info@plants.com</a>
             </p>
           </div>

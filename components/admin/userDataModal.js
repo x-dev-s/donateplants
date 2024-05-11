@@ -24,6 +24,7 @@ export default function UserDataModal({ user }) {
                         </div>
                         <p className="text-sm pt-1">{user.email}</p>
                         <p className="text-sm pt-1">{user.phone}</p>
+                        <p className="text-sm pt-1">Account created: {new Date(user.createdAt).toDateString()}</p>
                     </div>
                     <div>
                         <p className="text-end font-bold text-wrap">Balance:<br />{pkr.format(user.balance / 100)}</p>
@@ -32,7 +33,7 @@ export default function UserDataModal({ user }) {
                 <div className='h-[500px]'>
                     <h1 className='text-xl font-bold mb-3'>Draws</h1>
                     {user.draws.length === 0 ? (
-                        <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                        <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>
                                 <h2 className='text-2xl'>No draws bought</h2>
                             </div>
@@ -55,7 +56,7 @@ export default function UserDataModal({ user }) {
                                     {user.draws.toReversed().map((draw, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{draw.date.split('T')[0]}</td>
+                                            <td>{new Date(draw.date).toDateString()}</td>
                                             <td>{draw.drawName}</td>
                                             <td>{draw.drawType}</td>
                                             <td>{draw.numbers.length > 0 ? draw.numbers.join(', ') : 'Not submitted'}</td>
@@ -71,7 +72,7 @@ export default function UserDataModal({ user }) {
                 <div className='h-[500px]'>
                     <h1 className='text-xl font-bold mb-3'>Donations</h1>
                     {user.donations.length === 0 ? (
-                        <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                        <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>
                                 <h2 className='text-2xl'>No donations made</h2>
                             </div>
@@ -91,7 +92,7 @@ export default function UserDataModal({ user }) {
                                     {user.donations.map((donation, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{donation.date.split('T')[0]}</td>
+                                            <td>{new Date(donation.date).toDateString()}</td>
                                             <td>{donation.donationType}</td>
                                             <td>{pkr.format(donation.amount / 100)}</td>
                                         </tr>
@@ -104,7 +105,7 @@ export default function UserDataModal({ user }) {
                 <div className='h-[500px]'>
                     <h1 className='text-xl font-bold mb-3'>Deposits</h1>
                     {user.deposits.length === 0 ? (
-                        <div className='flex items-center justify-center h-[200px] overflow-auto'>
+                        <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>
                                 <h2 className='text-2xl'>No deposits made</h2>
                             </div>
@@ -123,7 +124,7 @@ export default function UserDataModal({ user }) {
                                     {user.deposits.toReversed().map((deposit, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{deposit.date.split('T')[0]}</td>
+                                            <td>{new Date(deposit.date).toDateString()}</td>
                                             <td>{pkr.format(deposit.amount / 100)}</td>
                                         </tr>
                                     ))}

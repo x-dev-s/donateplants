@@ -141,36 +141,48 @@ export default function AdminDashboard() {
 
                                 </div>
                             </div>
-                            <button id='notifications' onClick={() => { }} className='relative'>
-                                <div className='absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center'>1</div>
-                                <img className='w-6 h-6' src='/images/notifications.png' alt='notifications' />
-                            </button>
+                            <div id='notificationsWrapper' className='relative'>
+                                <button id='notifications' onClick={() => { document.getElementById('notificationsDropdown').classList.toggle('hidden') }} className='relative mr-1'>
+                                    {AdminData.unreadNotifications > 0 && <div className='absolute -top-[6px] -right-[2px] bg-green-600 text-white text-xs rounded-full w-[10px] h-[10px] flex items-center justify-center animate-pulse'></div>}
+                                    <img className='w-6 h-6' src='/images/notifications.png' alt='notifications' />
+                                </button>
+                                <div id='notificationsDropdown' className='hidden absolute z-20 top-[100%] right-[-8px] p-2 w-[250px]'>
+                                    <div className='bg-gray-700 text-gray-300 text-sm font-medium rounded-md ml-3 overflow-hidden'>
+                                        {AdminData.notifications.length === 0 ? (
+                                            <p className='text-center min-h-40 flex items-center justify-center'>No unread notifications</p>
+                                        ) : (
+                                            AdminData.notifications.slice(0, 5).map((notification, index) => (
+                                                <div key={index} id={'notification' + index} className='p-2 w-full flex items-center hover:bg-gray-900 hover:text-white cursor-pointer'>
+                                                    <div className='max-w-[18px]'><img src='/images/notification.png' alt='notification' /></div>
+                                                    <div className='px-2' onClick={(e) => { document.getElementById(`notificationActions${index}`).classList.toggle("visually-hidden"); e.target.classList.toggle('w-[130px]') }}>{notification.message}</div>
+                                                    <div id={`notificationActions${index}`} className='bg-white w-full visually-hidden transition-all duration-1000 p-2 flex items-center justify-center gap-2 max-w-[55px]'>
+                                                        <a role='button' className='text-green-500' onClick={(e) => { handleReadDeleteNotifications(e, notification._id, index) }}><img src='/images/markread.png' alt='read' /></a>
+                                                        <a role='button' className='text-red-500' onClick={(e) => { handleReadDeleteNotifications(e, notification._id, index) }}><img src='/images/delete.png' alt='delete' /></a>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+                                        <a role='button' onClick={() => { document.getElementById('notificationsDropdown').classList.add('hidden') }} href='#notificationsTable' className='p-2 w-full flex items-center hover:bg-gray-900 text-gray-300 hover:text-white justify-center'>View All</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 justify-between mt-3'>
-                            {/* <DashboardCard image='/images/user.png' name='Total Users' value={Users.length} />
-                            <DashboardCard image='/images/vuser.png' name='Verified Users' value={Users.filter(user => user.isVerified).length} />
+                            <DashboardCard image='/images/user.png' name='Total Users' value={Users.length} />
+                            <DashboardCard image='/images/vuser.png' name='Verified Users' value={AdminData.verifiedUsers} />
                             <DashboardCard image='/images/package.png' name='Active Packages' value={Packages.length} />
                             <DashboardCard image='/images/activedraws.png' name='Active Draws' value={Draws.filter(draw => draw.active).length} />
                             <DashboardCard image='/images/drawsbought.png' name='Draws Bought' value={AdminData.drawsBought} />
                             <DashboardCard image='/images/donationcount.png' name='Donations Count' value={AdminData.donationsCount} />
                             <DashboardCard image='/images/donations.png' name='Total Donations' value={pkrShort.format(AdminData.totalDonations / 100)} />
-                            <DashboardCard image='/images/notifications_colored.png' name='Total Notifications' value={AdminData.notifications.length} /> */}
-                            <DashboardCard image='/images/user.png' name='Total Users' value={Users.length} />
-                            <DashboardCard image='/images/vuser.png' name='Verified Users' value={Users.filter(user => user.isVerified).length} />
-                            <DashboardCard image='/images/package.png' name='Active Packages' value={Packages.length} />
-                            <DashboardCard image='/images/activedraws.png' name='Active Draws' value={Draws.filter(draw => draw.active).length} />
-                            <DashboardCard image='/images/drawsbought.png' name='Draws Bought' value={Users.reduce((acc, user) => acc + user.draws.length, 0)} />
-                            <DashboardCard image='/images/donationcount.png' name='Donations Count' value={Users.reduce((acc, user) => acc + user.donations.length, 0)} />
-                            <DashboardCard image='/images/donations.png' name='Total Donations' value={pkrShort.format(Users.reduce((acc, user) => acc + user.donations.reduce((acc, donation) => acc + donation.amount / 100, 0), 0))} />
-                            <DashboardCard image='/images/notifications_colored.png' name='Total Notifications' value={AdminData.notifications.length} />
-
+                            <DashboardCard image='/images/notifications_colored.png' name='Unread Notifications' value={AdminData.unreadNotifications} />
                         </div>
 
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3 mb-5'>
                             <div className='relative bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Users</h1>
                                 {Users.length === 0 ? (
-                                    <div className='flex items-center justify-center h-[400px] overflow-auto'>
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
                                             <h2 className='text-2xl'>No users found</h2>
                                         </div>
@@ -211,7 +223,7 @@ export default function AdminDashboard() {
                             <div className='relative bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Packages</h1>
                                 {Packages.length === 0 ? (
-                                    <div className='flex items-center justify-center h-[400px] overflow-auto'>
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
                                             <h2 className='text-2xl'>No packages found</h2>
                                             <a role='button' onClick={(e) => handleEditPkg(e)} className='text-green-500'>Create Now</a>
@@ -219,7 +231,7 @@ export default function AdminDashboard() {
                                     </div>
                                 ) : (
                                     <>
-                                        <a role='button' onClick={(e) => handleEditPkg(e)} className='absolute top-2 right-2 text-green-500 text-sm'>Create Package</a>
+                                        <a role='button' onClick={(e) => handleEditPkg(e)} className='absolute top-2 right-2 text-green-500 text-xs'>Create Package</a>
                                         <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
                                             <table className='table text-sm w-full h-full text-gray-500'>
                                                 <thead>
@@ -254,7 +266,7 @@ export default function AdminDashboard() {
                             <div className='relative bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Draws</h1>
                                 {Draws.length === 0 ? (
-                                    <div className='flex items-center justify-center h-[400px] overflow-auto'>
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
                                             <h2 className='text-2xl'>No draws created</h2>
                                             <a role='button' className='text-green-500'>Create Now</a>
@@ -262,7 +274,7 @@ export default function AdminDashboard() {
                                     </div>
                                 ) : (
                                     <>
-                                        <a role='button' onClick={(e) => { handleEditDraw(e) }} className='absolute top-2 right-2 text-green-500 text-sm'>Create Draw</a>
+                                        <a role='button' onClick={(e) => { handleEditDraw(e) }} className='absolute top-2 right-2 text-green-500 text-xs'>Create Draw</a>
                                         <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
                                             <table className='table text-sm w-full h-full text-gray-500'>
                                                 <thead>
@@ -276,6 +288,7 @@ export default function AdminDashboard() {
                                                         <th>Numbers</th>
                                                         <th>Winning Numbers</th>
                                                         <th>Selections</th>
+                                                        <th>Prizes</th>
                                                         <th>Active</th>
                                                         <th>Actions</th>
                                                     </tr>
@@ -286,12 +299,13 @@ export default function AdminDashboard() {
                                                             <td>{index + 1}</td>
                                                             <td>{draw.drawName}</td>
                                                             <td>{draw.drawType}</td>
-                                                            <td>{draw.createddate.split('T')[0]}</td>
-                                                            <td>{draw.enddate.split('T')[0]}</td>
+                                                            <td>{new Date(draw.createddate).toDateString().split(' ').slice(1).join(' ')}</td>
+                                                            <td>{new Date(draw.enddate).toDateString().split(' ').slice(1).join(' ')}</td>
                                                             <td>{draw.users.length}</td>
                                                             <td>{draw.numbers[0]} - {draw.numbers[draw.numbers.length - 1]}</td>
                                                             <td>{draw.winningNumbers.join(', ') || 'TBD'}</td>
                                                             <td>{draw.toSelect}</td>
+                                                            <td>{draw.prizes.map((prize, index) => (<span key={index}>{parseInt(prize) ? pkr.format(parseInt(prize) / 100) : prize}<br /></span>))}</td>
                                                             <td>{draw.active ? (<span className='text-green-500'>&#10004;</span>) : (<span className='text-red-500'>&#10006;</span>)}</td>
                                                             <td className='flex gap-2 h-full justify-center items-center'><a role='button' onClick={(e) => { handleEditDraw(e, "edit", draw) }} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/edit.png' alt='edit' /></a><a role='button' onClick={(e) => { handleEditDraw(e, "delete", draw) }} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/delete.png' alt='delete' /></a></td>
                                                         </tr>
@@ -305,7 +319,7 @@ export default function AdminDashboard() {
                             <div className='bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Donations</h1>
                                 {Users.filter(user => user.donations.length > 0).length === 0 ? (
-                                    <div className='flex items-center justify-center h-[400px] overflow-auto'>
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
                                             <h2 className='text-2xl'>No donations made</h2>
                                             <Link href='/donate' className='text-green-500'>Donate Now</Link>
@@ -328,7 +342,7 @@ export default function AdminDashboard() {
                                                 {Users.filter(user => user.donations.length > 0).sort((a, b) => b.donations.reduce((acc, donation) => acc + donation.amount, 0) - a.donations.reduce((acc, donation) => acc + donation.amount, 0)).map((user, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{user.donations.sort((a, b) => new Date(a.date) - new Date(b.date))[0].date.split('T')[0]} - {user.donations.sort((a, b) => new Date(b.date) - new Date(a.date))[0].date.split('T')[0]}</td>
+                                                        <td>{new Date(user.donations.sort((a, b) => new Date(a.date) - new Date(b.date))[0].date).toDateString().split(' ').slice(1).join(' ')} - {new Date(user.donations.sort((a, b) => new Date(b.date) - new Date(a.date))[0].date).toDateString().split(' ').slice(1).join(' ')}</td>
                                                         <td>{user.name}</td>
                                                         <td>{user.email}</td>
                                                         <td>{user.donations.map(donation => donation.donationType).removeDuplicates().join(', ')}</td>
@@ -340,10 +354,14 @@ export default function AdminDashboard() {
                                     </div>
                                 )}
                             </div>
-                            <div className='bg-gray-100 rounded-lg p-2'>
+                            <div id='notificationsTable' className='bg-gray-100 relative rounded-lg p-2'>
                                 <h1 className='text-xl font-bold mb-3'>Notifications</h1>
+                                <div className='flex flex-col md:gap-2 w-20 sm:w-full absolute top-1 right-2 text-right'>
+                                    <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "readAll") }} className='text-green-500 text-xs'>Mark All as Read</a>
+                                    <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "deleteAll") }} className='text-red-500 text-xs'>Delete All</a>
+                                </div>
                                 {AdminData.notifications.length === 0 ? (
-                                    <div className='flex items-center justify-center h-[400px] overflow-auto'>
+                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
                                             <h2 className='text-2xl'>No notifications found</h2>
                                         </div>
@@ -355,6 +373,7 @@ export default function AdminDashboard() {
                                                 <tr>
                                                     <th>No.</th>
                                                     <th>Date</th>
+                                                    <th>Time</th>
                                                     <th>Message</th>
                                                     <th>Read</th>
                                                     <th>Actions</th>
@@ -362,12 +381,13 @@ export default function AdminDashboard() {
                                             </thead>
                                             <tbody>
                                                 {AdminData.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)).map((notification, index) => (
-                                                    <tr key={index}>
+                                                    <tr key={index} id={'tableNotification' + index}>
                                                         <td>{index + 1}</td>
-                                                        <td>{notification.date.split('T')[0]}</td>
+                                                        <td>{new Date(notification.date).toDateString().split(' ').slice(1).join(' ')}</td>
+                                                        <td>{new Date(notification.date).toLocaleTimeString()}</td>
                                                         <td>{notification.message}</td>
                                                         <td>{notification.read ? (<span className='text-green-500'>&#10004;</span>) : (<span className='text-red-500'>&#10006;</span>)}</td>
-                                                        <td className='flex gap-2 h-full justify-center items-center'><a role='button' className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/delete.png' alt='delete' /></a></td>
+                                                        <td className='flex gap-2 h-full justify-center items-center'>{!notification.read ? <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, notification._id, index, true) }} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/markread.png' alt='read' /></a> : null}<a role='button' onClick={(e) => { handleReadDeleteNotifications(e, notification._id, index, true) }} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/delete.png' alt='delete' /></a></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -425,6 +445,9 @@ const handleEditDraw = (e, action = "create", draw = {}) => {
         document.getElementById('editdrawnumbers').value = draw.numbers.join(', ');
         document.getElementById('editdrawwinningNumbers').value = draw.winningNumbers.join(', ');
         document.getElementById('editdrawtoSelect').value = draw.toSelect;
+        document.getElementById('editdrawFirstPrize').value = !parseInt(draw.prizes[0]) ? draw.prizes[0] : draw.prizes[0] / 100;
+        document.getElementById('editdrawSecondPrize').value = !parseInt(draw.prizes[1]) ? draw.prizes[1] : draw.prizes[1] / 100;
+        document.getElementById('editdrawThirdPrize').value = !parseInt(draw.prizes[2]) ? draw.prizes[2] : draw.prizes[2] / 100;
         document.getElementById('editdrawisActive').value = draw.active;
     }
     else {
@@ -464,4 +487,57 @@ const handleEditPkg = (e, action = "create", pkg = {}) => {
     }
     document.getElementById('createEditPkg').classList.remove('hidden');
     return;
+}
+
+const handleReadDeleteNotifications = async (e, notificationId, index = 0, isTable = false, action = "") => {
+    e.preventDefault();
+    if (action === "") {
+        const res = await fetch('/api/admin/readdeletenotification',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ notificationId, action: e.target.alt })
+            })
+        if (res.status !== 200) {
+            console.error('Error reading/deleting notification')
+            return
+        }
+        if (isTable && e.target.alt === 'delete') {
+            document.getElementById(`tableNotification${index}`).remove();
+            return;
+        }
+        else if (isTable && e.target.alt === 'read') {
+            document.getElementById(`tableNotification${index}`).children[4].innerHTML = "<span className='text-green-500'>&#10004;</span>"
+            return;
+        }
+        else {
+            document.getElementById(`notification${index}`).remove();
+        }
+        return;
+    }
+    else {
+        if (action === 'deleteAll') {
+            ReactDOM.render(<DeleteModal type="notifications" name={notificationId} />, document.getElementById('deleteModal'));
+            document.getElementById('deleteModal').classList.remove('hidden');
+            return;
+        }
+        else {
+            const res = await fetch('/api/admin/readdeletenotification',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ notificationId, action })
+                })
+            if (res.status !== 200) {
+                console.error('Error reading/deleting notifications')
+                return
+            }
+            window.location.reload();
+        }
+
+    }
 }

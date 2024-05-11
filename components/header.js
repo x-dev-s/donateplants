@@ -3,9 +3,13 @@ import { logout } from "@/lib"
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 import { handleBuyDonate } from "./draws/draws";
+import { useEffect } from "react";
 
 export function Header() {
     const auth = useAuth();
+    useEffect(() => {
+        if(auth) document.getElementById('userDropdown').classList.add('hidden');
+    }, [])
     return (
         <>
             <header className="grid">
@@ -46,8 +50,8 @@ export function Header() {
                                 <div className="hidden bg-gray-800 hover:bg-black text-gray-300 hover:text-white text-sm font-medium rounded-md ml-3">
                                     <button className="donateBtn p-2 pl-1 flex items-center"><span><img className=" animate-pulse" style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></span> <span className="pl-1">Donate Now</span></button>
                                 </div>
-                                <div title="Donate" className="text-sm font-medium hover:bg-gray-700 animate-pulse rounded-md">
-                                    <button onClick={(e) => handleBuyDonate(e, auth)} className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></button>
+                                <div title="Donate" className="text-sm font-medium hover:bg-gray-700 animate-pulse rounded-md h-[40px] w-[40px] flex">
+                                    <Link href="/draws" className="donateBtn p-2"><img style={{ height: "24px" }} src="/images/donate.png" alt="donate" /></Link>
                                 </div>
                                 {
                                     auth ? (

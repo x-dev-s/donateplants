@@ -1,7 +1,8 @@
 import User from "@/models/user"
+import Admin from "@/models/admin";
 import connect from "@/utils/db"
 import bcrypt from "bcryptjs"
-import { sendEmail } from "@/utils/mailer";
+import { sendEmail, sendEmailToAdmin } from "@/utils/mailer";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -37,6 +38,15 @@ export async function POST(request) {
 
   try {
     const savedUser = await newUser.save()
+    const admin = await Admin.findOne({ id: "admin" })
+    admin.notifications.push({
+      context: "New User",
+      message: `New user registered with email ${email}`,
+      date: new Date().toISOString()
+    })
+    admin.unreadNotifications += 1
+    await admin.save()
+    await sendEmailToAdmin({ context: "New user registered", message: `<h3>User Details</h3><p>Name: ${name}</p><p>Email: ${email}</p><p>Phone: ${phone}</p>` })
     await sendEmail({email, emailType: "VERIFY", userId: savedUser._id})
     return new NextResponse("user is registered", { status: 200 })
   } catch (err) {

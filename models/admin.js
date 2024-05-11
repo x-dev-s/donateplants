@@ -6,6 +6,10 @@ const adminSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    verifiedUsers: {
+        type: Number,
+        default: 0,
+    },
     drawsBought: {
         type: Number,
         default: 0,
@@ -20,17 +24,24 @@ const adminSchema = new mongoose.Schema({
     },
     notifications: [
         {
-            type: String,
+            context: String,
             message: String,
-            date: Date.now(),
+            date: {
+                type: Date,
+                default: new Date().toISOString(),
+            },
             read: {
                 type: Boolean,
                 default: false,
             },
         },
     ],
+    unreadNotifications: {
+        type: Number,
+        default: 0,
+    },
 });
 
-const Admin = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
+const Admin = mongoose.models.admins || mongoose.model("admins", adminSchema);
 
 export default Admin;
