@@ -16,6 +16,7 @@ export async function POST(request) {
       );
       if (isPasswordCorrect) {
         const data = await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id });
+        return new NextResponse(data, { status: 200 });
         return {
           status: 200,
           body: {
