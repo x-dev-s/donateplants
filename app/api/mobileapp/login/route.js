@@ -3,7 +3,6 @@ import connect from "@/utils/db"
 import bcrypt from "bcryptjs"
 import { NextResponse } from 'next/server';
 import { login } from '@/lib';
-import { cookies } from "next/headers";
 
 export async function POST(request) {
   const credentials = await request.json();
@@ -17,7 +16,13 @@ export async function POST(request) {
       );
       if (isPasswordCorrect) {
         const data = await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id });
-        return NextResponse.json(data, { status: 200 });
+        return {
+          status: 200,
+          body: {
+            message: "Login Successful",
+            data
+          }
+        }
       }
       else {
         return new NextResponse("Password is incorrect", { status: 400 });
