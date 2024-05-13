@@ -16,7 +16,8 @@ export async function POST(request) {
         user.password
       );
       if (isPasswordCorrect) {
-        await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id });
+        const {session, expires} = await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id });
+        cookies().set("session", session, { expires })
         return new NextResponse("Login Successful", { status: 200 });
       }
       else {

@@ -31,8 +31,7 @@ export async function login(user) {
   console.log(user, expires)
   const session = await encrypt({ user, expires })
   // Save the session in a cookie
-  cookies().set("session", session, { expires })
-  return new NextResponse("Logged in", { status: 200 })
+  return { session, expires }
 }
 
 export async function logout() {
@@ -43,7 +42,7 @@ export async function logout() {
 export async function getSession() {
   const session = cookies().get("session")?.value
   if (!session) return null
-  return await decrypt(session)
+  return await decrypt(session) 
 }
 
 export async function updateSession(request) {
