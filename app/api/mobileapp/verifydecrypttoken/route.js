@@ -6,7 +6,7 @@ export async function POST(request) {
         const { token } = await request.json();
         const payload = await verifyJwtToken(token);
         if (payload) {
-            return new NextResponse(payload, { status: 200 });
+            return NextResponse.json(payload);
         }
         return new NextResponse("Token is not verified", { status: 400 });
     }
