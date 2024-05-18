@@ -51,7 +51,7 @@ export default function AdminDashboard() {
         }
         const data = await res.json()
         // console.log(data)
-        if (!data.user.isAdmin) {
+        if (!data.user && data.isAdmin == false) {
             router.push('/dashboard')
             return
         }
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
     }, [])
     return (
         <div className="container mx-auto">
-            {User.name && AdminData.drawsBought ?
+            {User && User.name && AdminData && AdminData.drawsBought ?
                 (
                     <>
                         <div className='flex items-center justify-between bg-gray-100 mt-5 py-2 pl-1 pr-2 rounded-lg'>

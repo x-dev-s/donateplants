@@ -241,6 +241,10 @@ export default function UserDashboard() {
                                                     <th>Date</th>
                                                     <th>Type</th>
                                                     <th>Amount</th>
+                                                    <th>Plant ID</th>
+                                                    <th>Plant Status</th>
+                                                    <th>Planted On</th>
+                                                    <th>Plant Location</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -250,6 +254,10 @@ export default function UserDashboard() {
                                                         <td>{donation.date.split('T')[0]}</td>
                                                         <td>{donation.donationType}</td>
                                                         <td>{pkr.format(donation.amount / 100)}</td>
+                                                        <td>{donation.donationType == 'Standard' ? donation._id : '-'}</td>
+                                                        <td>{donation.donationType == 'Standard' ? donation.status ? "Planted" : "Not Planted" : '-'}</td>
+                                                        <td>{donation.donationType == 'Standard' ? donation.plantedOn ? donation.plantedOn : "N/A" : '-'}</td>
+                                                        <td>{donation.donationType == 'Standard' ? donation.location ? donation.location : "N/A" : '-'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

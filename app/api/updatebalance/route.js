@@ -58,7 +58,7 @@ export async function POST(request) {
                 admin.totalDonations += amount;
                 admin.donationsCount += 1;
                 SendEmailToAdmin({ context: 'Donation Made', message: `${user.email} donated PKR ${amount / 100} and entered the Epic 8 Draw<br><br/><h3>Current Balance: PKR ${(user.balance / 100).toFixed(2)}</h3>` });
-                user.donations.push({ donationType: 'Standard', amount, date: new Date().toISOString('en-CA') });
+                user.donations.push({ donationType: 'Standard', amount, date: new Date().toISOString('en-CA'), plantStatus: false, plantedOn: null, plantLocation: null });
             }
             else if (data?.type == 'Farmer') {
                 user.draws.push({ active: true, drawName: 'Farmers Special Draw', drawType: 'Farmer', numbers: [], date: new Date().toISOString('en-CA') });

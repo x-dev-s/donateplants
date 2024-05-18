@@ -58,6 +58,9 @@ const userSchema = new mongoose.Schema({
       donationType: String,
       amount: Number,
       date: Date,
+      plantStatus: Boolean,
+      plantedOn: Date,
+      plantLocation: String,
     },
   ],
   drawsWon: [
@@ -77,7 +80,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.models.USER || mongoose.model("USER", userSchema);
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 
 export default User;
