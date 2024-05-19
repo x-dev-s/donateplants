@@ -320,7 +320,7 @@ export default function UserDashboard() {
                                     </div>
                                     <form id='customAmountForm' onSubmit={(e) => handleCustomAmount(e, email)} className='hidden mx-auto max-w-[200px]'>
                                         <div className='flex items-center justify-between gap-2'>
-                                            <input type='number' name='amount' className='border p-2 rounded-lg w-full' placeholder='Enter amount' /> <span>USD</span>
+                                            <input type='number' name='amount' className='border p-2 rounded-lg w-full' placeholder='Enter amount' required step="0.01" /> <span>USD</span>
                                         </div>
                                         <button type='submit' className='bg-green-600 mt-3 w-full text-white p-2 rounded-lg'>Deposit</button>
                                         <p id='customAmountError' className="text-center text-sm text-red-500 hidden">Minimum deposit amount is 10 USD</p>

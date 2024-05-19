@@ -19,8 +19,10 @@ export default function PaypalPage() {
             if (document.querySelector('.paypal-buttons')) return;
             let product = { id: "123212", description: "Deposit amount to your account" };
             let price = { unit_amount_decimal: amount * 100 };
-            let selector = "paypalBuyDiv";
+            let selector = "paypalDiv";
             let email = window.location.href.split('?')[1].split('=')[1];
+            email = decodeURIComponent(email)
+            console.log(email)
             ReactDOM.render(<Paypal key={product.id} product={product} price={price} toConvert={false} selector={selector} email={email} />, document.getElementById(selector));
             document.getElementById('amountForm').classList.add('hidden');
         } catch (error) {
@@ -48,7 +50,7 @@ export default function PaypalPage() {
                     <button type="submit" className="bg-green-600 hover:bg-green-800 p-2 rounded-lg text-white">Deposit</button>
                 </form>
                 <p className="text-red-500 text-sm pt-2">{error ? "* Minimum deposit amount is $10" : ""}</p>
-                <div id="paypalBuyDiv"></div>
+                <div id="paypalDiv"></div>
             </div>
         </div>
     )
