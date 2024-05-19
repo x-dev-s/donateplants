@@ -45,13 +45,13 @@ export default function DrawsPage() {
 
     return (
         <div className="container mx-auto">
-            {draws && draws.filter(draw => draw.active).map((Draw, mainindex) => (
+            {draws && draws.map((Draw, mainindex) => (
                 <div key={mainindex}>
-                    {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0).length > 0 ?
+                    {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0) .length > 0 ?
                         (
                             <Draws user={user} Draw={Draw} mainindex={mainindex} />
                         ) :
-                        mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active).length == 0)) ?
+                        mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active && draw.numbers.length == 0).length == 0)) ?
                             (
                                 <Draws user={user} Draw={Draw} mainindex={mainindex} />
                             )

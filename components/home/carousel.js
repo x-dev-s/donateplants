@@ -1,11 +1,15 @@
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Carousel() {
+    const pathname = usePathname();
     useEffect(() => {
-        setTimeout(() => {
-            document.querySelector(".carousel-control-next").click();
-        }, 5000);
-    }, []);
+        if (pathname == "/") {
+            setTimeout(() => {
+                document.querySelector(".carousel-control-next").click();
+            }, 5000);
+        }
+    }, [pathname]);
     return (
         <div id="carouselExampleIndicators" className="bg-white mx-auto w-full carousel carousel-dark slide" data-bs-ride="true">
             <div className="carousel-indicators">

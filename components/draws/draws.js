@@ -157,7 +157,7 @@ export function Draws({ user, Draw, mainindex }) {
                     {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
                 </div>
                 <div id={Draw.drawType + "Drawside" + mainindex} className="relative flex flex-col justify-center" suppressHydrationWarning>
-                    <section>
+                    <section className="flex flex-col gap-3">
                         <h2 className="text-2xl text-center mb-3">Winning Prizes</h2>
                         <p className="text-md mb-2">Match all 8</p>
                         <div className="flex items-center justify-between">
