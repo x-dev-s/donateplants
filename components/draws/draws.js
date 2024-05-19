@@ -154,40 +154,42 @@ export function Draws({ user, Draw, mainindex }) {
                             </div>
                         ))}
                     </div>
-                        {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
+                    {/* <img width="42" src={`/images/${num}.jpg`} alt={num} /> */}
                 </div>
-                <div id={Draw.drawType + "Drawside" + mainindex} className="relative" suppressHydrationWarning>
-                    <h2 className="text-2xl text-center mb-3">Winning Prizes</h2>
-                    <p className="text-md mb-2">Match all 8</p>
-                    <div className="flex items-center justify-between">
-                        <div className="grid grid-cols-8 gap-1">
-                            {[1, 2, 3, 4, 5, 6, 7, 8].map((num, index) => (
-                                <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
-                            ))}
+                <div id={Draw.drawType + "Drawside" + mainindex} className="relative flex flex-col justify-center" suppressHydrationWarning>
+                    <section>
+                        <h2 className="text-2xl text-center mb-3">Winning Prizes</h2>
+                        <p className="text-md mb-2">Match all 8</p>
+                        <div className="flex items-center justify-between">
+                            <div className="grid grid-cols-8 gap-1">
+                                {[1, 2, 3, 4, 5, 6, 7, 8].map((num, index) => (
+                                    <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
+                                ))}
+                            </div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">First Prize</div>
                         </div>
-                        <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">First Prize</div>
-                    </div>
-                    <p className="text-md mt-4 mb-2">Match any 7</p>
-                    <div className="flex items-center justify-between">
-                        <div className="grid grid-cols-8 gap-1">
-                            {[1, 2, 3, 4, 5, 6, 7].map((num, index) => (
-                                <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
-                            ))}
-                            <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
+                        <p className="text-md mt-4 mb-2">Match any 7</p>
+                        <div className="flex items-center justify-between">
+                            <div className="grid grid-cols-8 gap-1">
+                                {[1, 2, 3, 4, 5, 6, 7].map((num, index) => (
+                                    <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
+                                ))}
+                                <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
+                            </div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Second Prize</div>
                         </div>
-                        <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Second Prize</div>
-                    </div>
-                    <p className="text-md mt-4 mb-2">Match any 6</p>
-                    <div className="flex items-center justify-between">
-                        <div className="grid grid-cols-8 gap-1">
-                            {[1, 2, 3, 4, 5, 6].map((num, index) => (
-                                <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
-                            ))}
-                            <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
-                            <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
+                        <p className="text-md mt-4 mb-2">Match any 6</p>
+                        <div className="flex items-center justify-between">
+                            <div className="grid grid-cols-8 gap-1">
+                                {[1, 2, 3, 4, 5, 6].map((num, index) => (
+                                    <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
+                                ))}
+                                <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
+                                <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
+                            </div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Third Prize</div>
                         </div>
-                        <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Third Prize</div>
-                    </div>
+                    </section>
                     <div className="mt-5 text-center">
                         <h3 className="text-2xl">Draw Ends In</h3>
                         <div id={Draw.drawType + "Drawsideclock" + mainindex}></div>
@@ -270,7 +272,7 @@ export const handleSelectedNumber = (e, type, index) => {
 
 
 export const handleDrawOpt = (e, type, index) => {
-    if(e.target.tagName === 'SPAN') e.target = e.target.parentElement;
+    if (e.target.tagName === 'SPAN') e.target = e.target.parentElement;
     let selectedNumbers = document.querySelectorAll(`#${type}Draw${index} .${type}SelectedNumber`);
     for (let i = 0; i < selectedNumbers.length; i++) {
         if (selectedNumbers[i].textContent == e.target.textContent) {

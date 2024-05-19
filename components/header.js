@@ -8,8 +8,9 @@ import { useEffect } from "react";
 export function Header() {
     const auth = useAuth();
     useEffect(() => {
+        console.log(auth)
         if(auth) document.getElementById('userDropdown').classList.add('hidden');
-    }, [])
+    }, [auth])
     return (
         <>
             <header className="grid">
