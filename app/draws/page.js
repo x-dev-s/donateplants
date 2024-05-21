@@ -38,6 +38,11 @@ export default function DrawsPage() {
     }
     useEffect(() => {
         getDraws();
+        if(window.location.href.includes('?token')) {
+            let token = window.location.href.split('?')[1].split('=')[1];
+            token = decodeURIComponent(token);
+            document.cookie = `session=${token}`;
+        }
         if (document.cookie.includes('session')) {
             getUserData();
         }

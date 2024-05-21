@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import Paypal from "@/components/paypal"
+import { set } from "mongoose"
 
 
 
@@ -17,6 +18,7 @@ export default function PaypalPage() {
                 return
             }
             if (document.querySelector('.paypal-buttons')) return;
+            setError(false)
             let product = { id: "123212", description: "Deposit amount to your account" };
             let price = { unit_amount_decimal: amount * 100 };
             let selector = "paypalDiv";

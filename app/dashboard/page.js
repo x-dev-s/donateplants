@@ -166,14 +166,23 @@ export default function UserDashboard() {
                                     </div>
                                 </div>
                             </div>
+                            
                             <div className='hidden sm:block text-end text-sm md:text-base'>
                                 <p id='accountBalance' className='font-bold p-1'>Account Balance: {pkr.format(balance)}</p>
+                                { verified ? (
                                 <button onClick={handleDeposit} className='bg-green-600 text-white p-2 rounded-lg'>Deposit</button>
+                                ) : (
+                                    <button onClick={() => {handleEmailVerification(email, userId)}} className='bg-green-600 text-white p-2 rounded-lg'>Verify Account</button>
+                                )}
                             </div>
                             <div title='Deposit' className='block sm:hidden text-end text-sm md:text-base'>
                                 <p className='font-bold p-0'>Balance:</p>
                                 <p id='accountBalance' className='font-bold p-1'>{pkr.format(balance)}</p>
+                                { verified ? (
                                 <button onClick={handleDeposit} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/deposit.png' alt='deposit' /></button>
+                                ) : (
+                                    <button onClick={() => {handleEmailVerification(email, userId)}} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/verify.png' alt='verify' /></button>
+                                )}
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 justify-between mt-3'>
