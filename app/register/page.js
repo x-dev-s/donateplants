@@ -86,7 +86,7 @@ export default function RegisterPage() {
     return (
         <div className="flex h-screen container">
             <div className="m-auto">
-                <h1 className="text-3xl font-bold text-center mb-4">Register</h1>
+                <h1 className="text-3xl font-bold text-center pb-4">Register</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
                     {/* <select
                         name="type"
@@ -144,9 +144,9 @@ export default function RegisterPage() {
                     >
                         {loading ? 'Loading...' : 'Register'}
                     </button>
-                    {error && <p className="text-red-500 text-sm">* {error}</p>}
+                    {error && <p className="text-red-500 text-sm pt-2">* {error}</p>}
                 </form>
-                <p className="text-center text-xl my-3 text-gray-300">- OR -</p>
+                <p className="text-center text-xl py-3 text-gray-300">- OR -</p>
                 <p className="text-center text-sm">Already have an account? <Link href="/login" className="text-green-600">Login</Link></p>
             </div>
         </div>

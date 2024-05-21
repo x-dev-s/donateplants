@@ -15,15 +15,8 @@ export async function POST(request) {
         user.password
       );
       if (isPasswordCorrect) {
-        const data = await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id });
+        const data = await login({ email: credentials.email, name: user.name.replace(/\s/g, ''), id: user._id }, true);
         return NextResponse.json(data);
-        return {
-          status: 200,
-          body: {
-            message: "Login Successful",
-            data
-          }
-        }
       }
       else {
         return new NextResponse("Password is incorrect", { status: 400 });

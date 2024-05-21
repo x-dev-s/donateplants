@@ -54,7 +54,7 @@ export default function LoginPage() {
     return (
         <div className="flex h-screen">
             <div className="m-auto">
-                <h1 className="text-3xl font-bold text-center mb-4">Login</h1>
+                <h1 className="text-3xl font-bold text-center pb-4">Login</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
                     <input
                         type="email"
@@ -74,7 +74,7 @@ export default function LoginPage() {
                         className="p-2 border border-gray-300 rounded"
                         required
                     />
-                    <Link href="/forgotpassword" className="text-[12px] mt-1 text-green-600">Forgot password?</Link>
+                    <Link href="/forgotpassword" className="text-[12px] text-green-600">Forgot password?</Link>
                     <button
                         type="submit"
                         className="bg-green-600 hover:bg-green-800 text-white text-center p-2 rounded"
@@ -82,9 +82,9 @@ export default function LoginPage() {
                     >
                         {loading ? (<Image className="mx-auto" width={20} height={20} src="/images/loading.gif" alt="Loading..."/>) : 'Login'}
                     </button>
-                    {error && <p className={!error.includes("Success") ? "text-red-500 mt-2 text-sm" : "text-green-500 mt-2 text-sm"}>* {error}</p>}
+                    {error && <p className={!error.includes("Success") ? "text-red-500 pt-2 text-sm" : "text-green-500 mt-2 text-sm"}>* {error}</p>}
                 </form>
-                <p className="text-center text-lg my-3 text-gray-300">- OR -</p>
+                <p className="text-center text-lg py-3 text-gray-300">- OR -</p>
                 <p className="text-center text-sm">Don&apos;t have an account? <Link href="/register" className="text-green-600">Register</Link></p>
             </div>
         </div>

@@ -193,7 +193,7 @@ export default function UserDashboard() {
                         </div>
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
                             <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Draws</h1>
+                                <h1 className='text-xl font-bold pb-3'>Draws</h1>
                                 {draws.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -233,7 +233,7 @@ export default function UserDashboard() {
                                 )}
                             </div>
                             <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Donations</h1>
+                                <h1 className='text-xl font-bold pb-3'>Donations</h1>
                                 {donations.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -276,7 +276,7 @@ export default function UserDashboard() {
                             </div>
                         </div>
                         <div className='bg-gray-100 rounded-lg p-2 mt-3 text-center'>
-                            <h1 className='text-xl font-bold mb-3'>Deposits</h1>
+                            <h1 className='text-xl font-bold pb-3'>Deposits</h1>
                             {deposits.length === 0 ? (
                                 <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                     <div className='m-auto'>

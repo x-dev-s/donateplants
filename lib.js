@@ -7,6 +7,13 @@ const secretKey = process.env.JWT_SECRET_KEY
 const key = new TextEncoder().encode(secretKey)
 
 export async function encrypt(payload) {
+  if (payload.mobile) {
+    return await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("30d")
+    .sign(key)
+  }
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -21,15 +28,18 @@ export async function decrypt(input) {
   return payload
 }
 
-export async function login(user) {
+export async function login(user, mobile = false) {
   // Verify credentials && get the user
 
 //   const user = { email: formData.get("email"), name: "John" }
 
   // Create the session
-  const expires = new Date(Date.now() + 7200 * 1000)
+  let expires = new Date(Date.now() + 7200 * 1000)
+  if (mobile) {
+    expires = new Date(Date.now() + 2592000 * 1000)
+  }
   console.log(user, expires)
-  const session = await encrypt({ user, expires })
+  const session = await encrypt({ user, expires, mobile })
   // Save the session in a cookie
   return { session, expires }
 }
@@ -46,11 +56,8 @@ export async function getSession() {
 }
 
 export async function updateSession(request) {
-  const session = request.cookies.get("session")?.value
-  if (!session) return
-
-  // Refresh the session so it doesn't expire
-  const parsed = await decrypt(session)
+  const session = await getSession()
+  if (!session) return NextResponse.next()
   parsed.expires = new Date(Date.now() + 7200 * 1000)
   const res = NextResponse.next()
   res.cookies.set({

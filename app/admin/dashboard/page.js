@@ -180,7 +180,7 @@ export default function AdminDashboard() {
 
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3 mb-5'>
                             <div className='relative bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Users</h1>
+                                <h1 className='text-xl font-bold pb-3'>Users</h1>
                                 {Users.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
                                 )}
                             </div>
                             <div className='relative bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Packages</h1>
+                                <h1 className='text-xl font-bold pb-3'>Packages</h1>
                                 {Packages.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
                                 )}
                             </div>
                             <div className='relative bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Draws</h1>
+                                <h1 className='text-xl font-bold pb-3'>Draws</h1>
                                 {Draws.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -317,7 +317,7 @@ export default function AdminDashboard() {
                                 )}
                             </div>
                             <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Donations</h1>
+                                <h1 className='text-xl font-bold pb-3'>Donations</h1>
                                 {Users.filter(user => user.donations.length > 0).length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -355,7 +355,7 @@ export default function AdminDashboard() {
                                 )}
                             </div>
                             <div id='notificationsTable' className='bg-gray-100 relative rounded-lg p-2'>
-                                <h1 className='text-xl font-bold mb-3'>Notifications</h1>
+                                <h1 className='text-xl font-bold pb-3'>Notifications</h1>
                                 <div className='flex flex-col md:gap-2 w-20 sm:w-full absolute top-1 right-2 text-right'>
                                     <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "readAll") }} className='text-green-500 text-xs'>Mark All as Read</a>
                                     <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "deleteAll") }} className='text-red-500 text-xs'>Delete All</a>
@@ -443,7 +443,8 @@ const handleEditDraw = (e, action = "create", draw = {}) => {
         document.getElementById('editdrawtype').value = draw.drawType;
         document.getElementById('editdrawenddate').value = draw.enddate.split('T')[0];
         document.getElementById('editdrawnumbers').value = draw.numbers.join(', ');
-        document.getElementById('editdrawwinningNumbers').value = draw.winningNumbers.join(', ');
+        if(draw.winningNumbers.length > 1) document.getElementById('editdrawwinningNumbers').disabled = true
+        document.getElementById('editdrawwinningNumbers').value = draw.winningNumbers.join(', '); 
         document.getElementById('editdrawtoSelect').value = draw.toSelect;
         document.getElementById('editdrawFirstPrize').value = !parseInt(draw.prizes[0]) ? draw.prizes[0] : draw.prizes[0] / 100;
         document.getElementById('editdrawSecondPrize').value = !parseInt(draw.prizes[1]) ? draw.prizes[1] : draw.prizes[1] / 100;
