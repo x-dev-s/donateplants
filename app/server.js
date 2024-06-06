@@ -1,6 +1,6 @@
 'use server'
 import googleCurrencyScraper from 'google-currency-scraper';
-import { sendEmail, sendEmailToAdmin } from '@/utils/mailer';
+import { sendEmail, sendEmailToAdmin, sendEmailToUser } from '@/utils/mailer';
 
 export async function GetCurencyExchangeRate(from, to) {
     let currency_exchange = await googleCurrencyScraper({
@@ -24,6 +24,17 @@ export async function SendEmail({ email, emailType, userId }) {
 export async function SendEmailToAdmin({ context, message }) {
     try{
         await sendEmailToAdmin({ context, message });
+        return "Email Sent";
+    }
+    catch(err){
+        console.error(err);
+        return err;
+    }
+}
+
+export async function SendEmailToUser({ email, context, message }) {
+    try{
+        await sendEmailToUser({ email, context, message });
         return "Email Sent";
     }
     catch(err){

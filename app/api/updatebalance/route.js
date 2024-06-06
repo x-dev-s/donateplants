@@ -36,8 +36,8 @@ export async function POST(request) {
                 return NextResponse.json({ message: 'Insufficient balance' }, { status: 400 });
             }
             user.balance -= amount;
-            user.draws.push({ active: true, drawName: 'Epic 8 Draw', drawType: 'Standard', numbers: [], date: new Date().toISOString('en-CA') });
-            const draw = await Draw.findOne({ drawName: 'Epic 8 Draw' });
+            user.draws.push({ active: true, drawName: data.drawName, drawType: data.type, numbers: [], date: new Date().toISOString('en-CA') });
+            const draw = await Draw.findOne({ drawName: data.drawName });
             if (!draw) {
                 return NextResponse.json({ message: 'Draw not found' }, { status: 404 });
             }
@@ -61,9 +61,9 @@ export async function POST(request) {
                 user.donations.push({ donationType: 'Standard', amount, date: new Date().toISOString('en-CA'), plantStatus: false, plantedOn: null, plantLocation: null });
             }
             else if (data?.type == 'Farmer') {
-                user.draws.push({ active: true, drawName: 'Farmers Special Draw', drawType: 'Farmer', numbers: [], date: new Date().toISOString('en-CA') });
+                user.draws.push({ active: true, drawName: data.drawName, drawType: data.type, numbers: [], date: new Date().toISOString('en-CA') });
                 user.donations.push({ donationType: 'Farmer', amount, date: new Date().toISOString('en-CA') });
-                const draw = await Draw.findOne({ drawName: 'Farmers Special Draw' });
+                const draw = await Draw.findOne({ drawName: data.drawName });
                 if (!draw) {
                     return NextResponse.json({ message: 'Draw not found' }, { status: 404 });
                 }

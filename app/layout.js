@@ -16,6 +16,9 @@ export const metadata = {
   image: "/images/logo.png",
 };
 
+global.phone = "+111 1111 1111";
+global.email = "electricalera2023@gmail.com";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

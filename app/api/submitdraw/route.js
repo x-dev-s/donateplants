@@ -6,7 +6,7 @@ import { SendEmailToAdmin } from "@/app/server";
 
 export async function POST(request) {
     try {
-        const { email, type, numbers } = await request.json();
+        const { email, type, DrawName, numbers } = await request.json();
         await connect();
         const user = await User.findOne({ email });
         if (!user) {
@@ -17,7 +17,7 @@ export async function POST(request) {
         }
         let drawName = "";
         for (let draw of user.draws) {
-            if (draw.active && draw.numbers.length == 0 && draw.drawType == type) {
+            if (draw.active && draw.numbers.length == 0 && draw.drawType == type && draw.drawName == DrawName) {
                 drawName = draw.drawName;
                 draw.numbers = numbers.slice(0, 8);
                 break;

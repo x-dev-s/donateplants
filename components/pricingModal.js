@@ -26,7 +26,7 @@ export default function PricingModal({ pkgs, type, user, drawName }) {
                                     <p className="text-sm">{pkg.description}</p>
                                 </div>
                                 <img className="w-auto h-[200px] object-contain my-3 mx-auto" src={pkg.images[0] || type == 'Standard' ? '/images/p1.png' : '/images/p4.png'} alt={pkg.name} />
-                                <button onClick={(e) => handlePayment(e, type, pkg, user.email)} className="bg-green-600 hover:bg-green-800 text-white p-2 w-full">Donate {pkr.format(pkg.price / 100)}</button>
+                                <button onClick={(e) => handlePayment(e, type, drawName, pkg, user.email)} className="bg-green-600 hover:bg-green-800 text-white p-2 w-full">Donate {pkr.format(pkg.price / 100)}</button>
                             </div>
                         </div>
                     ))}
@@ -36,7 +36,7 @@ export default function PricingModal({ pkgs, type, user, drawName }) {
     )
 }
 
-const handlePayment = async (e, type, pkg, email) => {
+const handlePayment = async (e, type, drawName, pkg, email) => {
     try {
         e.preventDefault();
         e.target.disabled = true;
@@ -47,7 +47,7 @@ const handlePayment = async (e, type, pkg, email) => {
                 email,
                 type: 'subtract',
                 amount: pkg.price,
-                data: { type, pkg }
+                data: { type, drawName, pkg }
             }),
             headers: {
                 "Content-Type": "application/json",

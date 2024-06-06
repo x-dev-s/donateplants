@@ -31,7 +31,7 @@ export default function CreateEditDraw({ action }) {
                         <textarea id="editdrawwinningNumbers" className="rounded-md" placeholder="Seperate each by a comma ','" />
                     </div>
                     <div className="flex flex-col gap-2">
-                        <label htmlFor="toSelect">How many numbers to select</label>
+                        <label htmlFor="toSelect">Number of Selections</label>
                         <input required min={1} type="number" id="editdrawtoSelect" className="rounded-md" />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -72,8 +72,6 @@ const handleSubmit = async (e, action) => {
             active: document.getElementById('editdrawisActive').value,
             drawName: document.getElementById('editdrawname').value,
             drawType: document.getElementById('editdrawtype').value,
-            // numbers: document.getElementById('editdrawnumbers').value.split(',').filter(el => el !== ''), // Remove empty strings
-            // winningNumbers: document.getElementById('editdrawwinningNumbers').value.split(',').filter(el => el !== ''), // Remove empty strings
             toSelect: parseInt(document.getElementById('editdrawtoSelect').value),
             enddate: document.getElementById('editdrawenddate').value,
 
@@ -84,12 +82,35 @@ const handleSubmit = async (e, action) => {
 
         !parseInt(document.getElementById('editdrawThirdPrize').value) ? data.prizes.push(document.getElementById('editdrawThirdPrize').value) : data.prizes.push(parseInt(document.getElementById('editdrawThirdPrize').value * 100))
 
-        if (document.getElementById('editdrawnumbers').value !== '') data.numbers = document.getElementById('editdrawnumbers').value.split(',').filter(el => el !== ''); // Remove empty strings
-        if (document.getElementById('editdrawwinningNumbers').value !== '') data.winningNumbers = document.getElementById('editdrawwinningNumbers').value.split(',').filter(el => el !== ''); // Remove empty strings
+        if (document.getElementById('editdrawnumbers').value !== '') data.numbers = document.getElementById('editdrawnumbers').value.replace(/\s/g, '').split(',').filter(el => el !== '').sort((a, b) => a - b); // Remove empty strings
+
+        if (document.getElementById('editdrawwinningNumbers').value !== '') {
+            data.winningNumbers = document.getElementById('editdrawwinningNumbers').value.replace(/\s/g, '').split(',').filter(el => el !== '').sort((a, b) => a - b); // Remove empty strings
+            if (data.winningNumbers.length !== data.toSelect) {
+                document.getElementById('editDrawError').innerHTML = "* Winning numbers must be equal to the number of selections (" + data.toSelect + ")";
+                document.querySelector('#createEditDraw button[type="submit"]').removeAttribute('disabled');
+                document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Save`
+                return;
+            }
+            // Numbers must be unique
+            if (new Set(data.winningNumbers).size !== data.winningNumbers.length) {
+                document.getElementById('editDrawError').innerHTML = "* Winning numbers must be unique";
+                document.querySelector('#createEditDraw button[type="submit"]').removeAttribute('disabled');
+                document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Save`
+                return;
+            }
+
+            // Numbers must be within the range of 1 - 31
+            if (data.winningNumbers.some(num => num < 1 || num > 31)) {
+                document.getElementById('editDrawError').innerHTML = "* Winning numbers must be within the range of 1 - 31";
+                document.querySelector('#createEditDraw button[type="submit"]').removeAttribute('disabled');
+                document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Save`
+                return;
+            }
+        }
         else {
             data.winningNumbers = [];
         }
-        console.log(data);
         const res = await axios.post("/api/admin/createeditdraw", { action, data });
         if (res.ok || res.status === 200) {
             document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Saved`
@@ -100,7 +121,7 @@ const handleSubmit = async (e, action) => {
         }
     } catch (error) {
         console.error(error);
-        document.getElementById('editDrawError').innerHTML = "* An error occured, please try again";
+        document.getElementById('editDrawError').innerHTML = "* An error occured, please try again (Hint: Draw name must be unique)";
         document.querySelector('#createEditDraw button[type="submit"]').removeAttribute('disabled');
         document.querySelector('#createEditDraw button[type="submit"]').innerHTML = `Save`
         return;

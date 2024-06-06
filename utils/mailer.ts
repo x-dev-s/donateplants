@@ -69,3 +69,30 @@ export const sendEmailToAdmin = async ({ context, message }: any) => {
     throw new Error(error.message);
   }
 }
+
+export const sendEmailToUser = async ({ email, context, message }: any) => {
+  try {
+    var transport = nodemailer.createTransport({
+      host: "live.smtp.mailtrap.io",
+      port: 587,
+      auth: {
+        user: "api",
+        pass: "98c5d56d0532c223a088211458145f8b"
+      },
+    });
+
+    const mailOptions = {
+      from: "mailtrap@demomailtrap.com",
+      to: "electricalera2023@gmail.com",
+      subject: context,
+      html: `<div style="background-color: #f4f4f4; padding: 20px; display: grid; align-items: center; gap: 20px; font-family: Arial, sans-serif; color: #333; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto; margin-top: 20px; justify-content: center; text-align: center;"><h1>${context}</h1><div>${message}</div></div>`,
+    };
+
+    const mailresponse = await transport.sendMail(mailOptions);
+    return mailresponse;
+  }
+  catch (error: any) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+}

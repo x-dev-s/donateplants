@@ -356,9 +356,15 @@ export default function AdminDashboard() {
                             </div>
                             <div id='notificationsTable' className='bg-gray-100 relative rounded-lg p-2'>
                                 <h1 className='text-xl font-bold pb-3'>Notifications</h1>
-                                <div className='flex flex-col md:gap-2 w-20 sm:w-full absolute top-1 right-2 text-right'>
-                                    <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "readAll") }} className='text-green-500 text-xs'>Mark All as Read</a>
-                                    <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "deleteAll") }} className='text-red-500 text-xs'>Delete All</a>
+                                <div className='absolute top-1 right-2 text-right'>
+                                    <div className='flex flex-col flex-1 md:gap-2 sm:w-full'>
+                                        <span><a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "readAll") }} className='text-green-500 text-xs'>Mark All as Read</a></span>
+                                        <span className='flex gap-2 justify-items-end'>
+                                            <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "deleteRead") }} className='text-red-500 text-xs'>Delete Read</a>
+                                            <span className='text-red-500 text-xs'>|</span>
+                                            <a role='button' onClick={(e) => { handleReadDeleteNotifications(e, 'all', null, true, "deleteAll") }} className='text-red-500 text-xs'>Delete All</a>
+                                        </span>
+                                    </div>
                                 </div>
                                 {AdminData.notifications.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
@@ -443,9 +449,10 @@ const handleEditDraw = (e, action = "create", draw = {}) => {
         document.getElementById('editdrawtype').value = draw.drawType;
         document.getElementById('editdrawenddate').value = draw.enddate.split('T')[0];
         document.getElementById('editdrawnumbers').value = draw.numbers.join(', ');
-        if(draw.winningNumbers.length > 1) document.getElementById('editdrawwinningNumbers').disabled = true
-        document.getElementById('editdrawwinningNumbers').value = draw.winningNumbers.join(', '); 
+        // if(draw.winningNumbers.length > 1) document.getElementById('editdrawwinningNumbers').disabled = true
+        document.getElementById('editdrawwinningNumbers').value = draw.winningNumbers.join(', ');
         document.getElementById('editdrawtoSelect').value = draw.toSelect;
+        document.getElementById('editdrawtoSelect').disabled = true;
         document.getElementById('editdrawFirstPrize').value = !parseInt(draw.prizes[0]) ? draw.prizes[0] : draw.prizes[0] / 100;
         document.getElementById('editdrawSecondPrize').value = !parseInt(draw.prizes[1]) ? draw.prizes[1] : draw.prizes[1] / 100;
         document.getElementById('editdrawThirdPrize').value = !parseInt(draw.prizes[2]) ? draw.prizes[2] : draw.prizes[2] / 100;

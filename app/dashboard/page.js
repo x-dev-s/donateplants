@@ -213,6 +213,7 @@ export default function UserDashboard() {
                                                     <th>Numbers</th>
                                                     <th>Active</th>
                                                     <th>Won</th>
+                                                    <th>Prize</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -225,6 +226,7 @@ export default function UserDashboard() {
                                                         <td>{draw.numbers.length > 0 ? draw.numbers.join(', ') : 'Not submitted'}</td>
                                                         <td>{draw.active ? (<span className="text-green-500">&#10004;</span>) : (<span className="text-red-500">&#10006;</span>)}</td>
                                                         <td>{drawsWon.find(drawWon => drawWon.drawId === draw._id) ? (<span className="text-green-500">&#10004;</span>) : (<span className="text-red-500">&#10006;</span>)}</td>
+                                                        <td>{drawsWon.find(drawWon => drawWon.drawId === draw._id) ? pkr.format(drawsWon.find(drawWon => drawWon.drawId === draw._id).amount / 100) : '-'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

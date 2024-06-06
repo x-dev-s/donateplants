@@ -126,7 +126,23 @@ export function Draws({ user, Draw, mainindex }) {
         }
 
         var deadline = new Date(date);
-        var c = new Clock(deadline, function () { alert('countdown complete') });
+        var c = new Clock(deadline, function () {
+            const res = fetch('/api/admin/changedrawstatus',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({action: "deactivate", name: Draw.drawName })
+                })
+            if (res.status !== 200) {
+                console.error('Error ending draw')
+                return
+            }
+            alert(Draw.drawName + ' has ended');
+            window.location.reload();
+        });
+
         if (document.getElementById(selector) && document.getElementById(selector).innerHTML == "") document.getElementById(selector).appendChild(c.el)
     }
     return (
@@ -144,7 +160,7 @@ export function Draws({ user, Draw, mainindex }) {
                                 <div key={index} onClick={(e) => handleSelectedNumber(e, Draw.drawType, mainindex)} className={`${Draw.drawType}SelectedNumber cursor-pointer p-1 text-center bg-white w-[30px] h-[30px] rounded-md`}></div>
                             ))}
                         </div>
-                        <button id={`${Draw.drawType}DrawConfirm${mainindex}`} onClick={(e) => handleConfirmDraw(e, user.email, Draw.drawType, mainindex)} className="bg-gray-700 hover:bg-gray-900 p-2 w-fit h-fit rounded-md text-gray-200 flex mx-auto" >Confirm Selection</button>
+                        <button id={`${Draw.drawType}DrawConfirm${mainindex}`} onClick={(e) => handleConfirmDraw(e, user.email, Draw.drawType, Draw.drawName, mainindex)} className="bg-gray-700 hover:bg-gray-900 p-2 w-fit h-fit rounded-md text-gray-200 flex mx-auto" >Confirm Selection</button>
                     </div>
                     <div style={{ borderRadius: "0px 0px 10px 10px" }} className="grid grid-cols-4 bg-gray-100 px-4 py-4 lg:grid-cols-6 gap-4 mx-auto">
                         {/* from 1 to 31 */}
@@ -166,7 +182,7 @@ export function Draws({ user, Draw, mainindex }) {
                                     <div key={index} className="bg-green-600 rounded-full w-[15px] h-[15px] lg:w-[25px] lg:h-[25px]"></div>
                                 ))}
                             </div>
-                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">First Prize</div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">{!parseInt(Draw.prizes[0]) ? Draw.prizes[0] : 'PKR ' + Draw.prizes[0] / 100}</div>
                         </div>
                         <p className="text-md mt-4 mb-2">Match any 7</p>
                         <div className="flex items-center justify-between">
@@ -176,7 +192,7 @@ export function Draws({ user, Draw, mainindex }) {
                                 ))}
                                 <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
                             </div>
-                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Second Prize</div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">{!parseInt(Draw.prizes[1]) ? Draw.prizes[1] : 'PKR ' + Draw.prizes[1] / 100}</div>
                         </div>
                         <p className="text-md mt-4 mb-2">Match any 6</p>
                         <div className="flex items-center justify-between">
@@ -187,7 +203,7 @@ export function Draws({ user, Draw, mainindex }) {
                                 <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
                                 <div className="border-2 border-green-600 w-[15px] h-[15px] lg:w-[25px] lg:h-[25px] rounded-full"></div>
                             </div>
-                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">Third Prize</div>
+                            <div className="bg-gray-800 rounded-full py-1 px-3 text-sm text-center text-white">{!parseInt(Draw.prizes[2]) ? Draw.prizes[2] : 'PKR ' + Draw.prizes[2] / 100}</div>
                         </div>
                     </section>
                     <div className="mt-5 text-center">
@@ -204,7 +220,7 @@ export function Draws({ user, Draw, mainindex }) {
 }
 
 
-const handleConfirmDraw = async (e, email, type, index) => {
+const handleConfirmDraw = async (e, email, type, drawName, index) => {
     e.preventDefault();
     if (!email) {
         alert('Please login to continue');
@@ -231,14 +247,14 @@ const handleConfirmDraw = async (e, email, type, index) => {
     }
     //sorting numbers in ascending order
     numbers.sort((a, b) => a - b);
-    console.log(email, type, numbers);
+    console.log(email, type, drawName, numbers);
     const res = await fetch('/api/submitdraw',
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, type, numbers })
+            body: JSON.stringify({ email, type, DrawName: drawName, numbers })
         })
     if (res.status !== 200) {
         alert('Error submitting draw')

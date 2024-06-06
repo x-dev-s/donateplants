@@ -17,6 +17,9 @@ export async function POST(request) {
                 admin.notifications = [];
                 admin.unreadNotifications = 0;
             }
+            else if(action == "deleteRead") {
+                admin.notifications = admin.notifications.filter((n) => !n.read);
+            }
             else if(action == "readAll") {
                 admin.notifications.forEach((n) => n.read = true);
                 admin.unreadNotifications = 0;
