@@ -2,7 +2,7 @@
 import { logout } from "@/lib"
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
-import { handleBuyDonate } from "./draws/draws";
+import { handleBuyDonate } from "./draws/draw";
 import { useEffect } from "react";
 
 export function Header() {

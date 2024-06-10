@@ -14,6 +14,16 @@ export const metadata = {
   title: "Donate Plants",
   description: "Donate plants to save the environment",
   image: "/images/logo.png",
+  openGraph: {
+    title: "Donate Plants",
+    description: "Donate plants to save the environment",
+    image: "/images/logo.png",
+  },
+  twitter: {
+    title: "Donate Plants",
+    description: "Donate plants to save the environment",
+    image: "/images/logo.png",
+  },
 };
 
 global.phone = "+111 1111 1111";

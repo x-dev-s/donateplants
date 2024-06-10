@@ -10,6 +10,8 @@ import { SendEmail } from '@/app/server'
 import Link from 'next/link'
 import axios from 'axios'
 import CreateEditPkg from '@/components/admin/createEditPkg'
+import Cookies from 'universal-cookie'
+import { verifyJwtToken } from '@/utils/auth'
 
 export default function AdminDashboard() {
     const router = useRouter()
@@ -116,10 +118,25 @@ export default function AdminDashboard() {
 
 
     useEffect(() => {
+        if (window.location.href.includes('?session')) {
+            let token = window.location.href.split('?')[1].split('=')[1];
+            token = decodeURIComponent(token);
+            (async () => {
+                const hasVerifiedToken = token && (await verifyJwtToken(token));
+                if (hasVerifiedToken) {
+                    Cookies.set('session', token);
+                    document.cookie = `session=${token}`;
+                }
+                else{
+                    console.log('Invalid token')
+                }
+            })();
+        }
+        if (document.cookie.includes('session')) {
+            getUsers();
+        }
         (async () => {
-            if (document.cookie.includes('session')) {
-                getUsers();
-            }
+
             getDraws();
             getPackages();
             getAdminData();

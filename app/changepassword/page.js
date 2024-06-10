@@ -53,7 +53,7 @@ export default function ChangePassword() {
     return (
         <div className="flex h-screen">
             <div className="m-auto">
-                <h1 className="text-3xl font-bold text-center mb-4">Change Password</h1>
+                <h1 className="text-3xl font-bold text-center pb-4">Change Password</h1>
                 <form className="flex flex-col space-y-4">
                     <input
                         type="password"

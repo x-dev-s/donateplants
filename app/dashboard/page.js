@@ -79,6 +79,11 @@ export default function UserDashboard() {
     }
 
     useEffect(() => {
+        if(window.location.href.includes('?session')) {
+            let token = window.location.href.split('?')[1].split('=')[1];
+            token = decodeURIComponent(token);
+            document.cookie = `session=${token}`;
+        }
         if (document.cookie.includes('session')) {
             getUserData();
         }

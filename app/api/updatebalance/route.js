@@ -36,7 +36,13 @@ export async function POST(request) {
                 return NextResponse.json({ message: 'Insufficient balance' }, { status: 400 });
             }
             user.balance -= amount;
-            user.draws.push({ active: true, drawName: data.drawName, drawType: data.type, numbers: [], date: new Date().toISOString('en-CA') });
+            let standardDraws = await Draw.find({drawType: 'Standard'});
+            standardDraws = standardDraws.filter(draw => draw.active);
+            if(standardDraws.length == 0) {
+                return NextResponse.json({ message: 'No active standard draws found' }, { status: 404 });
+            }
+
+            user.draws.push({ active: true, drawName: standardDraws[0].drawName, drawType: 'Standard', numbers: [], date: new Date().toISOString('en-CA') });
             const draw = await Draw.findOne({ drawName: data.drawName });
             if (!draw) {
                 return NextResponse.json({ message: 'Draw not found' }, { status: 404 });
