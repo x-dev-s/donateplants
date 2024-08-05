@@ -1,9 +1,19 @@
 import Card from "@/components/howtoplay/card"
 
 export const metadata = {
-    title: "How to Play",
+    title: "How to Play - " + process.env.WEBSITE_NAME,
     description: "Learn how to play the draws",
-    image: "/images/logo.png"
+    image: "/images/logo.png",
+    openGraph: {
+        title: "How to Play - " + process.env.WEBSITE_NAME,
+        description: "Learn how to play the draws",
+        image: "/images/logo.png",
+    },
+    twitter: {
+        title: "How to Play - " + process.env.WEBSITE_NAME,
+        description: "Learn how to play the draws",
+        image: "/images/logo.png",
+    },
 }
 
 export default function HowToPlay(){

@@ -1,6 +1,19 @@
+'use client'
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Card({ title, description, image }) {
+    useEffect(() => {
+        let interval = setInterval(() => {
+            if(document.getElementById('pageloading').classList.contains('hidden')) {
+                let cards = document.querySelectorAll('.bg-gray-100');
+                for(let card of cards) {
+                    card.classList.add('animate-[slideUpFadeIn_1s_ease]');
+                }
+                clearInterval(interval);
+            }
+        }, 200);
+    }, []);
     return (
         <div>
             <div className="bg-gray-100 rounded-lg w-full h-full relative p-3">

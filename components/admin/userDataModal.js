@@ -9,7 +9,7 @@ export default function UserDataModal({ user }) {
         <div className="fixed z-40 top-0 left-0 h-screen w-screen bg-black/50 backdrop-blur">
             <div className="absolute h-full w-full md:h-[80%] md:w-[80%] max-w-[800px] max-h-[600px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-100 p-4 rounded-md overflow-auto flex flex-col gap-3">
                 <button className="absolute top-2 right-2 text-2xl" onClick={() => { document.getElementById('userDataModal').classList.add('hidden') }}>&times;</button>
-                <h1 className="text-3xl text-center mb-3 font-bold">User Data</h1>
+                <h1 className="text-3xl text-center pb-3 font-bold">User Data</h1>
                 <div className="p-2 flex justify-between items-center bg-white rounded-md">
                     <div>
                         <div className='items-baseline flex flex-wrap gap-1'>
@@ -31,7 +31,7 @@ export default function UserDataModal({ user }) {
                     </div>
                 </div>
                 <div className='h-[500px]'>
-                    <h1 className='text-xl font-bold mb-3'>Draws</h1>
+                    <h1 className='text-xl font-bold pb-3'>Draws</h1>
                     {user.draws.length === 0 ? (
                         <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>
@@ -72,7 +72,7 @@ export default function UserDataModal({ user }) {
                     )}
                 </div>
                 <div className='h-[500px]'>
-                    <h1 className='text-xl font-bold mb-3'>Donations</h1>
+                    <h1 className='text-xl font-bold pb-3'>Donations</h1>
                     {user.donations.length === 0 ? (
                         <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>
@@ -105,7 +105,7 @@ export default function UserDataModal({ user }) {
                     )}
                 </div>
                 <div className='h-[500px]'>
-                    <h1 className='text-xl font-bold mb-3'>Deposits</h1>
+                    <h1 className='text-xl font-bold pb-3'>Deposits</h1>
                     {user.deposits.length === 0 ? (
                         <div className='flex items-center justify-center bg-white rounded-lg h-[200px] overflow-auto'>
                             <div className='m-auto'>

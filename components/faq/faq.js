@@ -1,4 +1,5 @@
 'use client'
+import { set } from "mongoose";
 import { useEffect, useState } from "react"
 
 export default function FAQs() {
@@ -19,10 +20,19 @@ export default function FAQs() {
     }
     useEffect(() => {
         getFaqs();
-    }, []);
+        let interval = setInterval(() => {
+            if (document.getElementById('pageloading').classList.contains('hidden') && faqs.length > 0) {
+                let accordions = document.querySelectorAll('.accordion');
+                for (let accordion of accordions) {
+                    accordion.classList.add('animate-[slideDownFadeIn_1s_ease]');
+                };
+                clearInterval(interval);
+            }
+        }, 400);
+    }, [faqs]);
     return (
         <div className="container mx-auto my-5">
-            <h1 className="mb-3">Frequently Asked Questions</h1>
+            <h1 className="pb-3">Frequently Asked Questions</h1>
             {
                 faqs && faqs.map((category, mainindex) =>
                 (
@@ -55,7 +65,7 @@ export default function FAQs() {
 
                 )
             }
-            
+
         </div>
     )
 }

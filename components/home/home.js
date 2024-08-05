@@ -24,10 +24,10 @@ export default function Home() {
                     tile.classList.add('animate-[slideUpFadeIn_1s_ease]');
                 }
             });
-            if (document.getElementById('mainVideo').getBoundingClientRect().top < window.innerHeight) {
+            if (document.getElementById('mainVideo') && document.getElementById('mainVideo').getBoundingClientRect().top < window.innerHeight) {
                 document.getElementById('mainVideo').classList.add('animate-[fadeIn_2s_ease]');
             }
-            if (document.getElementById('carouselExampleIndicators').getBoundingClientRect().top < window.innerHeight) {
+            if (document.getElementById('carouselExampleIndicators') && document.getElementById('carouselExampleIndicators').getBoundingClientRect().top < window.innerHeight) {
                 document.getElementById('carouselExampleIndicators').classList.add('animate-[zoomIn_1s_ease]');
             }
         });
@@ -57,24 +57,49 @@ export default function Home() {
                 </div>
             </div>
 
-            <div id="mainVideo" className="mt-4">
-                <video className="w-full" autoPlay loop muted>
-                    <source src="/videos/plants.mp4" type="video/mp4" />
-                </video>
+            <div id="mainVideo" className="relative h-[400px] mb-4 hidden lg:block">
+                <div id="video" className="absolute top-0 left-0">
+                    <div className="relative slanted2">
+                        <div className="bg-gray-100/25 absolute top-0 left-0 w-full h-full z-10"></div>
+                        <video className="h-[400px]" autoPlay loop muted>
+                            <source src="/videos/plants.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <div id="videoSide" className="flex justify-center items-center bg-white w-[60%] h-full slanted2-revert absolute top-0 left-[40%]">
+                    <div id="mainHeading" className="mx-auto">
+                        <h2 className="text-center text-black lg:px-[7%] text-2xl">We plants trees for a better ecosystem and promote organic farming and organic food</h2>
+                        <div className="flex justify-center mt-4">
+                            <Link href="/draws" className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className="lg:hidden">
+                <div id="mainVideo" className="relative">
+                    <div className="bg-gray-100/25 absolute top-0 left-0 w-full h-full z-10"></div>
+                    <video className="h-full" autoPlay loop muted>
+                        <source src="/videos/plants.mp4" type="video/mp4" />
+                    </video>
+                </div>
+
+                <div id="mainHeading" className="mx-auto mt-4">
+                    <h2 className="text-center text-black lg:px-[7%] text-xl">We plants trees for a better ecosystem and promote organic farming and organic food</h2>
+                    <div className="flex justify-center mt-4">
+                        <Link href="/draws" className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</Link>
+                    </div>
+                </div>
             </div>
 
             <Carousel />
 
-            <section id="mainHeading" className="mx-auto">
-                <h2 className="text-center text-black text-2xl">We plants trees for a better ecosystem and promote organic farming and organic food</h2>
-                <div className="flex justify-center mt-4">
-                    <Link href="/draws" className="donateBtn bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded">Donate Now</Link>
-                </div>
-            </section>
 
             <div id="blurBackground" className="bg-black/50 backdrop-blur fixed top-0 left-0 w-full h-full z-20 hidden"></div>
 
-            <section id="about" className="mx-auto w-full mt-16">
+            <section id="about" className="mx-auto w-full mt-16 md:hidden">
                 <h1 className="text-5xl font-bold text-center text-black pb-4">About Us</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div id="whoWeAre" className="relative cursor-pointer bg-gray-100 rounded-md p-3 tile" onMouseEnter={() => { document.querySelector("#whoWeAre p").style.height = "auto"; document.querySelector("#whoWeAre p").style.padding = "24px" }} onMouseLeave={() => { document.querySelector("#whoWeAre p").style.height = "0"; document.querySelector("#whoWeAre p").style.padding = "0px" }}>
@@ -91,6 +116,38 @@ export default function Home() {
                         <img className="mix-blend-darken m-auto" src="/images/contact.png" style={{ height: "200px" }} alt="contact" />
                         <h2 className="text-3xl font-bold text-center text-black">Contact Us</h2>
                         <p id="contactUs" className="text-white text-center overflow-hidden grid items-center rounded-md absolute h-0 max-h-full w-full bottom-0 left-0 bg-black/80 transition-all">For more information on our services, please contact us at 123-456-7890 or email us at
+                            <a className="hover:underline" href="mailto:info@plants.com">info@plants.com</a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section id="aboutDesktop" className="mx-auto w-full mt-16 hidden md:block">
+                <h1 className="text-5xl font-bold text-center text-black pb-4">About Us</h1>
+                <div id="whoWeAre" className="relative cursor-pointer rounded-md p-3 tile flex items-center gap-4">
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted">
+                        <img className="mix-blend-darken" src="/images/about.png" style={{ height: "250px" }} alt="about" />
+                    </div>
+                    <div className="slanted-side">
+                        <h2 className="text-3xl pb-4 font-bold text-center text-black">Who We Are?</h2>
+                        <p id="whoWeAre" className="text-center transition-all">We plant trees for a better ecosystem and promote organic farming and food. Our mission is to help restore the ecosystem by planting trees to curb the climate change and educate the humanity to consume organic food nd fruits.</p>
+                    </div>
+                </div>
+                <div id="whatWeOffer" className="relative cursor-pointer rounded-md p-3 tile flex items-center gap-4">
+                    <div className="slanted-side">
+                        <h2 className="text-3xl pb-4 font-bold text-center text-black">What We Offer?</h2>
+                        <p id="whatWeOffer" className="text-center transition-all">We help planting trees without consuming goverment funds via community support and encourage community to donate plant by wining  a prize.</p>
+                    </div>
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted-revert">
+                        <img className="mix-blend-darken" src="/images/services.svg" style={{ height: "300px" }} alt="services" />
+                    </div>
+                </div>
+                <div id="contactUs" className="relative cursor-pointer rounded-md p-3 tile flex items-center gap-4">
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted">
+                        <img className="mix-blend-darken" src="/images/contact.png" style={{ height: "250px" }} alt="contact" />
+                    </div>
+                    <div className="slanted-side">
+                        <h2 className="text-3xl pb-4 font-bold text-center text-black">Contact Us</h2>
+                        <p id="contactUs" className="text-center transition-all">For more information on our services, please contact us at 123-456-7890 or email us at
                             <a className="hover:underline" href="mailto:info@plants.com">info@plants.com</a>
                         </p>
                     </div>
@@ -119,35 +176,88 @@ export default function Home() {
         </form>
       </div > */}
 
-            <section id="prizes" className="mx-auto my-16 w-full">
+            <section id="prizes" className="mx-auto my-16 w-full md:hidden">
                 <h1 className="text-5xl font-bold text-center text-black pb-4">Prizes</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div className="bg-gray-100 rounded-md p-3 tile">
                         <img className="m-auto" src="/images/prize1.png" style={{ height: "200px" }} alt="prize1" />
-                        <h2 className="text-2xl font-bold text-center text-black">PKR 200,000</h2>
+                        <h2 className="text-2xl font-bold text-center text-black">First Prize</h2>
+                        <p className="text-center text-gray-500">PKR 200,000</p>
                     </div>
                     <div className="bg-gray-100 rounded-md p-3 tile">
                         <img className="m-auto" src="/images/prize2.png" style={{ height: "200px" }} alt="prize2" />
-                        <h2 className="text-2xl font-bold text-center text-black">PKR 150,000</h2>
+                        <h2 className="text-2xl font-bold text-center text-black">Second Prize</h2>
+                        <p className="text-center text-gray-500">PKR 150,000</p>
                     </div>
-                    <div className="bg-gray-100 rounded-md p-3 tile">
+                    <div className="bg-gray-100 rounded-md p-3 tile sm:col-span-2">
                         <img className="m-auto" src="/images/prize3.png" style={{ height: "200px" }} alt="prize3" />
-                        <h2 className="text-2xl font-bold text-center text-black">PKR 50,000</h2>
+                        <h2 className="text-2xl font-bold text-center text-black">Third Prize</h2>
+                        <p className="text-center text-gray-500">PKR 50,000</p>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 pt-4 gap-4">
                     <div className="bg-gray-100 rounded-md p-3 tile">
-                        <img className="m-auto mix-blend-darken" src="/images/specialprize.png" style={{ height: "300px" }} alt="specialprize" />
+                        <img className="m-auto mix-blend-darken" src="/images/specialprize.png" style={{ height: "250px" }} alt="specialprize" />
                         <h2 className="text-2xl font-bold text-center text-black">Special Prize</h2>
                         <p className="text-center text-gray-500">100 prizes of PKR 1000 each</p>
                     </div>
                     <div className="bg-gray-100 rounded-md p-3 tile">
-                        <img className="m-auto" src="/images/farmersprize.png" style={{ height: "300px" }} alt="farmersprize" />
+                        <img className="m-auto" src="/images/farmersprize.png" style={{ height: "250px" }} alt="farmersprize" />
                         <h2 className="text-2xl font-bold text-center text-black">Farmer&apos;s Prize</h2>
                         <p className="text-center text-gray-500">1000 plants in addition to the winning prize</p>
                     </div>
                 </div>
             </section>
+
+            <section id="prizesDesktop" className="mx-auto my-16 w-full hidden md:block">
+                <h1 className="text-5xl font-bold text-center text-black pb-4">Prizes</h1>
+                <div className="p-3 tile flex items-center gap-4">
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted">
+                        <img className="m-auto" src="/images/prize1.png" style={{ height: "200px" }} alt="prize1" />
+                    </div>
+                    <div className="slanted-side">
+                        <h2 className="text-2xl font-bold text-center text-black">First Prize</h2>
+                        <p className="text-center text-gray-500">PKR 200,000</p>
+                    </div>
+                </div>
+                <div className="p-3 tile flex items-center gap-4">
+                    <div className="slanted-side">
+                        <h2 className="text-2xl font-bold text-center text-black">Second Prize</h2>
+                        <p className="text-center text-gray-500">PKR 150,000</p>
+                    </div>
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted-revert">
+                        <img className="m-auto" src="/images/prize2.png" style={{ height: "250px" }} alt="prize2" />
+                    </div>
+                </div>
+                <div className="p-3 tile flex items-center gap-4">
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted">
+                        <img className="m-auto" src="/images/prize3.png" style={{ height: "200px" }} alt="prize3" />
+                    </div>
+                    <div className="slanted-side">
+                        <h2 className="text-2xl font-bold text-center text-black">Third Prize</h2>
+                        <p className="text-center text-gray-500">PKR 50,000</p>
+                    </div>
+                </div>
+                <div className="tile flex items-center gap-4">
+                    <div className="slanted-side">
+                        <h2 className="text-2xl font-bold text-center text-black">Special Prize</h2>
+                        <p className="text-center text-gray-500">100 prizes of PKR 1000 each</p>
+                    </div>
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted-revert">
+                        <img className="m-auto mix-blend-darken" src="/images/specialprize.png" style={{ height: "250px" }} alt="specialprize" />
+                    </div>
+                </div>
+                <div className="p-3 tile flex items-center gap-4">
+                    <div className="bg-gray-100 w-1/2 lg:w-[500px] slanted">
+                        <img className="m-auto" src="/images/farmersprize.png" style={{ height: "200px" }} alt="farmersprize" />
+                    </div>
+                    <div className="slanted-side">
+                        <h2 className="text-2xl font-bold text-center text-black">Farmer&apos;s Prize</h2>
+                        <p className="text-center text-gray-500">1000 plants in addition to the winning prize</p>
+                    </div>
+                </div>
+            </section>
+
         </main >
     );
 }

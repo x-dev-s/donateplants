@@ -38,7 +38,7 @@ export default function Draws() {
     }
     useEffect(() => {
         getDraws();
-        if(window.location.href.includes('?token')) {
+        if (window.location.href.includes('?token')) {
             let token = window.location.href.split('?')[1].split('=')[1];
             token = decodeURIComponent(token);
             document.cookie = `session=${token}`;
@@ -50,20 +50,31 @@ export default function Draws() {
 
     return (
         <div className="container mx-auto">
-            {draws && draws.filter(Draw => Draw.active).map((Draw, mainindex) => (
-                <div key={mainindex}>
-                    {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0) .length > 0 ?
-                        (
-                            <DRAW user={user} Draw={Draw} mainindex={mainindex} />
-                        ) :
-                        mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active && draw.numbers.length == 0).length == 0)) ?
-                            (
-                                <DRAW user={user} Draw={Draw} mainindex={mainindex} />
-                            )
-                            : null
-                    }
-                </div>
-            ))}
+            {draws && draws.filter(Draw => Draw.active).length > 0 ?
+                (
+                    <>
+                        {draws.filter(Draw => Draw.active).map((Draw, mainindex) => (
+                            <div key={mainindex}>
+                                {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0).length > 0 ?
+                                    (
+                                        <DRAW user={user} Draw={Draw} mainindex={mainindex} />
+                                    ) :
+                                    mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active && draw.numbers.length == 0).length == 0)) ?
+                                        (
+                                            <DRAW user={user} Draw={Draw} mainindex={mainindex} />
+                                        )
+                                        : null
+                                }
+                            </div>
+                        )
+                        )
+                        }
+                    </>
+                ) : (
+                    <div className="text-center h-screen flex justify-center items-center">
+                        <h1>No active draws</h1>
+                    </div>
+                )}
             <div id="buyDonate" className="hidden">
                 <BuyDonate />
             </div>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import DashboardCard from '@/components/dashboardCard'
 import Link from 'next/link'
 import axios from 'axios'
-import { SendEmail } from '../server'
+import { SendEmail } from '@/app/server'
 import ReactDOM from 'react-dom'
 import Paypal from '@/components/paypal'
 import IntlTelInput from 'intl-tel-input/react';

@@ -9,13 +9,21 @@ export function Header() {
     const auth = useAuth();
     useEffect(() => {
         if(auth) document.getElementById('userDropdown').classList.add('hidden');
+        document.addEventListener('scroll', () => {
+            if(window.scrollY > 100){
+                document.getElementById("Header").classList.remove('h-24');
+                document.getElementById("Header").classList.add('h-16');
+                document.getElementById("logo").classList.remove('h-20');
+                document.getElementById("logo").classList.add('h-12');
+            }
+        })
     }, [auth])
     return (
         <>
             <header className="grid">
                 <nav className="h-fit z-10">
                     <div className="bg-green-800 mx-auto">
-                        <div className="container relative flex h-16 items-center justify-between">
+                        <div id="Header" className="container relative flex h-24 items-center justify-between">
                             <div className="flex flex-1 items-center justify-center sm:justify-start">
                                 <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                     <button onClick={handleNavbar} type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
@@ -30,7 +38,7 @@ export function Header() {
                                     </button>
                                 </div>
                                 <Link href="/">
-                                    <img className="h-12" src="/images/logo.png" alt="logo" />
+                                    <img id="logo" className="h-20 mix-blend-hard-light" src="/images/logo.gif" alt="logo" />
                                 </Link>
                                 <div className="hidden sm:block mx-auto ">
                                     <div className="flex">
@@ -62,7 +70,7 @@ export function Header() {
                                             <div id="userDropdown" className="hidden absolute top-[100%] right-[-8px] p-2" style={{ width: "max-content" }}>
                                                 <div className="bg-gray-700 text-gray-300 text-sm font-medium rounded-md ml-3 overflow-hidden">
                                                     {/* <button className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/profile.png" alt="profile" /></span> <span className="pl-2">Profile</span></button> */}
-                                                    <Link className="p-2 w-full flex items-center text-gray-300 hover:bg-gray-900 hover:text-white" href="/dashboard"><span><img style={{ height: "18px" }} src="/images/dashboard.png" alt="dashboard" /></span> <span className="pl-2">Dashboard</span></Link>
+                                                    <Link className="p-2 w-full flex items-center text-gray-300 hover:bg-gray-900 hover:text-white" href="/user/dashboard"><span><img style={{ height: "18px" }} src="/images/dashboard.png" alt="dashboard" /></span> <span className="pl-2">Dashboard</span></Link>
                                                     <button onClick={handleLogout} className="p-2 w-full flex items-center hover:bg-gray-900 hover:text-white"><span><img style={{ height: "18px" }} src="/images/logout.png" alt="logout" /></span> <span className="pl-2">Logout</span></button>
                                                 </div>
                                             </div>
