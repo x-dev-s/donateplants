@@ -126,7 +126,7 @@ export default function AdminDashboard() {
         })()
     }, [])
     return (
-        <div className="container mx-auto">
+        <div className="mx-auto">
             {User && User.name && AdminData && AdminData.drawsBought ?
                 (
                     <>
@@ -141,7 +141,7 @@ export default function AdminDashboard() {
                             <DashboardCard image='/images/notifications_colored.png' name='Unread Notifications' value={AdminData.unreadNotifications} />
                         </div>
 
-                        <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3 mb-5'>
+                        <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
                             
                             
                             

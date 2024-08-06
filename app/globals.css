@@ -348,10 +348,12 @@ a {
   width: 5px;
   height: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-track {
   background-color: transparent;
 }
@@ -390,10 +392,6 @@ td {
   border-radius: 50% !important;
 }
 
-#adminMainDiv {
-  width: calc(100vw - 271px) !important
-}
-
 .slanted {
   clip-path: polygon(0 0, 60% 0, 100% 100%, 0 100%);
 }
@@ -429,5 +427,11 @@ td {
 @media (min-width: 768px) and (max-width: 991px) {
   .slanted-side {
     width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  #adminMainDiv {
+    width: calc(100vw - 271px) !important
   }
 }

@@ -83,7 +83,7 @@ export function Header() {
                     </div>
                     <div className="h-0 bg-green-800 overflow-hidden transition-all" id="mobileMenu">
                         <div className="space-y-1 px-2 pb-3 pt-2">
-                            <Link href="/" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Home</Link>
+                            <Link href="/" className="text-gray-300 block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Home</Link>
                             <Link href="/draws" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Draws</Link>
                             <Link href="/howtoplay" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">How to Play</Link>
                             {/* <Link href="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">About Us</Link> */}
