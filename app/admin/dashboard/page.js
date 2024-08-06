@@ -143,49 +143,7 @@ export default function AdminDashboard() {
 
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3 mb-5'>
                             
-                            <div className='relative bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold pb-3'>Packages</h1>
-                                {Packages.length === 0 ? (
-                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
-                                        <div className='m-auto'>
-                                            <h2 className='text-2xl'>No packages found</h2>
-                                            <a role='button' onClick={(e) => handleEditPkg(e)} className='text-green-500'>Create Now</a>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <a role='button' onClick={(e) => handleEditPkg(e)} className='absolute top-2 right-2 text-green-500 text-xs'>Create Package</a>
-                                        <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
-                                            <table className='table text-sm w-full h-full text-gray-500'>
-                                                <thead>
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Name</th>
-                                                        <th>Type</th>
-                                                        <th>Description</th>
-                                                        <th>Price</th>
-                                                        <th>Active</th>
-                                                        <th>Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {Packages.toReversed().map((pkg, index) => (
-                                                        <tr key={index}>
-                                                            <td>{index + 1}</td>
-                                                            <td>{pkg.name}</td>
-                                                            <td>{pkg.type}</td>
-                                                            <td>{pkg.description}</td>
-                                                            <td>{pkr.format(pkg.price / 100)}</td>
-                                                            <td>{pkg.active ? (<span className='text-green-500'>&#10004;</span>) : (<span className='text-red-500'>&#10006;</span>)}</td>
-                                                            <td className='flex gap-2 h-full justify-center items-center'><a role='button' onClick={(e) => handleEditPkg(e, 'edit', pkg)} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/edit.png' alt='edit' /></a><a role='button' onClick={(e) => handleEditPkg(e, 'delete', pkg)} className='text-center'><img className='mx-auto w-[15px] h-[15px]' src='/images/delete.png' alt='delete' /></a></td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
+                            
                             
                             <div className='bg-gray-100 rounded-lg p-2'>
                                 <h1 className='text-xl font-bold pb-3'>Donations</h1>
@@ -296,36 +254,6 @@ export default function AdminDashboard() {
 
 Array.prototype.removeDuplicates = function () {
     return this.filter((item, index) => this.indexOf(item) === index);
-}
-
-
-
-
-
-const handleEditPkg = (e, action = "create", pkg = {}) => {
-    e.preventDefault();
-    if (action === 'delete') {
-        ReactDOM.render(<DeleteModal type="pkg" name={pkg.name} />, document.getElementById('deleteModal'));
-        document.getElementById('deleteModal').classList.remove('hidden');
-        return;
-    }
-    ReactDOM.render(<CreateEditPkg action={action} />, document.getElementById('createEditPkg'));
-    if (action === 'edit') {
-        document.getElementById('editpkgname').value = pkg.name;
-        document.getElementById('editpkgtype').value = pkg.type;
-        document.getElementById('editpkgdescription').value = pkg.description;
-        document.getElementById('editpkgprice').value = pkg.price / 100;
-        document.getElementById('editpkgisActive').value = pkg.active;
-    }
-    else {
-        document.getElementById('editpkgname').value = '';
-        document.getElementById('editpkgtype').value = 'Standard';
-        document.getElementById('editpkgdescription').value = '';
-        document.getElementById('editpkgprice').value = '';
-        document.getElementById('editpkgisActive').value = 'true';
-    }
-    document.getElementById('createEditPkg').classList.remove('hidden');
-    return;
 }
 
 const handleReadDeleteNotifications = async (e, notificationId, index = 0, isTable = false, action = "") => {
