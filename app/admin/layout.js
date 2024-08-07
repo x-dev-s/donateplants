@@ -95,10 +95,9 @@ export default function Layout({ children }) {
                         <svg id="navbarOpen" className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
-
                     </button>
                     <div className="row max-w-[1304px] mx-auto gap-4">
-                        <div id='adminNavbar' className="lg:flex flex-col h-screen z-50 fixed lg:sticky overflow-auto p-0 lg:!px-2 top-0 left-0 bg-gray-100 transition-all !w-0 lg:!w-[230px] py-5">
+                        <div id='adminNavbar' className="lg:flex flex-col h-screen z-20 fixed lg:sticky overflow-auto p-0 lg:!px-2 top-0 left-0 bg-gray-100 transition-all !w-0 lg:!w-[230px] py-5">
                             <button id='adminNavbarClose' onClick={() => { document.getElementById('adminNavbar').classList.remove('!w-[230px]'); document.getElementById('adminNavbar').classList.add('!w-0'); document.getElementById('adminNavbar').classList.remove('px-2'); }} className='lg:hidden absolute top-0 right-0 text-gray-700 p-2 rounded-md'>
                                 <svg id="navbarClose" className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -132,7 +131,7 @@ export default function Layout({ children }) {
                                                     </div>
                                                 ))
                                             )}
-                                            <a role='button' onClick={() => { document.getElementById('notificationsDropdown').classList.add('hidden') }} href='#notificationsTable' className='p-2 w-full flex items-center hover:bg-gray-900 text-gray-300 hover:text-white justify-center'>View All</a>
+                                            <Link role='button' onClick={() => { document.getElementById('notificationsDropdown').classList.add('hidden') }} href='/admin/dashboard#notificationsTable' className='p-2 w-full flex items-center hover:bg-gray-900 text-gray-300 hover:text-white justify-center'>View All</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -189,4 +188,8 @@ export default function Layout({ children }) {
 const handleLogout = async () => {
     await logout();
     window.location.assign('/login');
+}
+
+Array.prototype.removeDuplicates = function () {
+    return this.filter((item, index) => this.indexOf(item) === index);
 }

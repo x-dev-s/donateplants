@@ -32,7 +32,7 @@ export default function CreateEditDraw({ action }) {
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="toSelect">Number of Selections</label>
-                        <input required min={1} type="number" id="editdrawtoSelect" className="rounded-md" />
+                        <input required min='1' type="number" id="editdrawtoSelect" className="rounded-md" />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="First Prize">First Prize</label>

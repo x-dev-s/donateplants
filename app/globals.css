@@ -334,6 +334,15 @@ a {
   text-decoration: none !important;
 }
 
+table {
+  margin-bottom: 50px !important;
+}
+
+tr{
+  height: 100px !important;
+  vertical-align: middle !important;
+}
+
 .carousel-item img {
   transition: transform 0.5s;
   cursor: pointer;

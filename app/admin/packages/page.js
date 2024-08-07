@@ -6,7 +6,7 @@ import axios from 'axios'
 import DeleteModal from '@/components/admin/deleteModal'
 
 export default function AdminDrawsPage() {
-    const [Packages, setPackages] = useState([])
+    const [Packages, setPackages] = useState(null)
     const [Pagination, setPagination] = useState({ start: 1, end: 10 })
     let pkr = Intl.NumberFormat("en-PK", {
         style: "currency",
@@ -96,7 +96,7 @@ export default function AdminDrawsPage() {
                     </div>
                 ) : (
                     <>
-                        <a role='button' onClick={(e) => handleEditPkg(e)} className='absolute top-2 right-2 text-green-500 text-xs'>Create Package</a>
+                        <a role='button' onClick={(e) => handleEditPkg(e)} className='sm:absolute top-2 right-2 text-green-500 text-xs'>Create Package</a>
                         <div className='overflow-auto max-h-[400px] bg-white rounded-lg min-h-[100vh]'>
                             <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                 <thead>

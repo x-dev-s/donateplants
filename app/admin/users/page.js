@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 export default function AdminUsersPage() {
     const [User, setUser] = useState(null)
     const [Users, setUsers] = useState(null)
-    const [Pagination, setPagination] = useState({ start: 1, end: 5 })
+    const [Pagination, setPagination] = useState({ start: 1, end: 10 })
 
     const getUsers = async () => {
         const res = await fetch('/api/user/?all=true',
@@ -43,7 +43,7 @@ export default function AdminUsersPage() {
             if (Pagination.start === 1) {
                 return;
             }
-            if (Pagination.start - 5 <= 1) {
+            if (Pagination.start - 10 <= 1) {
                 e.target.style.display = 'none'
                 document.getElementById('next').style.display = 'block'
             }
@@ -51,13 +51,13 @@ export default function AdminUsersPage() {
                 e.target.style.display = 'block'
                 document.getElementById('next').style.display = 'block'
             }
-            setPagination({ start: Pagination.start - 5, end: Pagination.end - 5 })
+            setPagination({ start: Pagination.start - 10, end: Pagination.end - 10 })
         }
         else {
             if (Pagination.end >= Users.length) {
                 return;
             }
-            if (Pagination.end + 5 >= Users.length) {
+            if (Pagination.end + 10 >= Users.length) {
                 e.target.style.display = 'none'
                 document.getElementById('prev').style.display = 'block'
             }
@@ -65,7 +65,7 @@ export default function AdminUsersPage() {
                 e.target.style.display = 'block'
                 document.getElementById('prev').style.display = 'block'
             }
-            setPagination({ start: Pagination.start + 5, end: Pagination.end + 5 })
+            setPagination({ start: Pagination.start + 10, end: Pagination.end + 10 })
         }
     }
 
@@ -111,7 +111,7 @@ export default function AdminUsersPage() {
                                         ))}
                                     </tbody>
                                 </table>
-                                {Users.length > 5 && (
+                                {Users.length > 10 && (
                                     <div className='pagination flex justify-center items-center gap-2 pb-2'>
                                         <a role='button' id='prev' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
                                         <p className='text-center text-xs text-gray-500'>{Pagination.start < 1 ? 1 : Pagination.start} - {Pagination.end > Users.length ? Users.length : Pagination.end} of {Users.length}</p>

@@ -130,7 +130,7 @@ export default function AdminDrawsPage() {
                         </div>
                     ) : (
                         <>
-                            <a role='button' onClick={(e) => { handleEditDraw(e) }} className='absolute top-2 right-2 text-green-500 text-xs'>Create Draw</a>
+                            <a role='button' onClick={(e) => { handleEditDraw(e) }} className='sm:absolute top-2 right-2 text-green-500 text-xs'>Create Draw</a>
                             <div className='overflow-auto max-h-[400px] bg-white rounded-lg min-h-[100vh]'>
                                 <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                     <thead>

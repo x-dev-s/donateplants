@@ -125,6 +125,39 @@ export default function AdminDashboard() {
             getAdminData();
         })()
     }, [])
+
+    const handlePagination = (e) => {
+        e.preventDefault();
+        if (e.target.id.includes('prev')) {
+            if (Pagination.start === 1) {
+                return;
+            }
+            if (Pagination.start - 10 <= 1) {
+                e.target.style.display = 'none'
+                document.getElementById('next').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('next').style.display = 'block'
+            }
+            setPagination({ start: Pagination.start - 10, end: Pagination.end - 10 })
+        }
+        else {
+            if (Pagination.end >= Draws.length) {
+                return;
+            }
+            if (Pagination.end + 10 >= Draws.length) {
+                e.target.style.display = 'none'
+                document.getElementById('prev').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('prev').style.display = 'block'
+            }
+            setPagination({ start: Pagination.start + 10, end: Pagination.end + 10 })
+        }
+    }
+
     return (
         <div className="mx-auto">
             {User && User.name && AdminData && AdminData.drawsBought ?
@@ -136,53 +169,14 @@ export default function AdminDashboard() {
                             <DashboardCard image='/images/package.png' name='Active Packages' value={Packages.length} />
                             <DashboardCard image='/images/activedraws.png' name='Active Draws' value={Draws.filter(draw => draw.active).length} />
                             <DashboardCard image='/images/drawsbought.png' name='Draws Bought' value={AdminData.drawsBought} />
-                            <DashboardCard image='/images/donationcount.png' name='Donations Count' value={AdminData.donationsCount} />
-                            <DashboardCard image='/images/donations.png' name='Total Donations' value={pkrShort.format(AdminData.totalDonations / 100)} />
+                            <DashboardCard image='/images/donationcount.png' name='AdminData.notifications Count' value={AdminData.donationsCount} />
+                            <DashboardCard image='/images/donations.png' name='Total AdminData.notifications' value={pkrShort.format(AdminData.totalDonations / 100)} />
                             <DashboardCard image='/images/notifications_colored.png' name='Unread Notifications' value={AdminData.unreadNotifications} />
                         </div>
 
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
-                            
-                            
-                            
-                            <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold pb-3'>Donations</h1>
-                                {Users.filter(user => user.donations.length > 0).length === 0 ? (
-                                    <div className='flex items-center justify-center h-[200px] overflow-auto'>
-                                        <div className='m-auto'>
-                                            <h2 className='text-2xl'>No donations made</h2>
-                                            <Link href='/draws' className='text-green-500'>Donate Now</Link>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
-                                        <table className='table text-sm w-full h-full text-gray-500'>
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Date</th>
-                                                    <th>User</th>
-                                                    <th>Email</th>
-                                                    <th>Type</th>
-                                                    <th>Amount</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {Users.filter(user => user.donations.length > 0).sort((a, b) => b.donations.reduce((acc, donation) => acc + donation.amount, 0) - a.donations.reduce((acc, donation) => acc + donation.amount, 0)).map((user, index) => (
-                                                    <tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{new Date(user.donations.sort((a, b) => new Date(a.date) - new Date(b.date))[0].date).toDateString().split(' ').slice(1).join(' ')} - {new Date(user.donations.sort((a, b) => new Date(b.date) - new Date(a.date))[0].date).toDateString().split(' ').slice(1).join(' ')}</td>
-                                                        <td>{user.name}</td>
-                                                        <td>{user.email}</td>
-                                                        <td>{user.donations.map(donation => donation.donationType).removeDuplicates().join(', ')}</td>
-                                                        <td>{pkr.format(user.donations.reduce((acc, donation) => acc + donation.amount, 0) / 100)}</td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
-                            </div>
+
+
                             <div id='notificationsTable' className='bg-gray-100 relative rounded-lg p-2'>
                                 <h1 className='text-xl font-bold pb-3'>Notifications</h1>
                                 <div className='absolute top-1 right-2 text-right'>
@@ -227,6 +221,13 @@ export default function AdminDashboard() {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        {AdminData.notifications.length > 10 && (
+                                            <div className='pagination flex justify-center items-center gap-2 pb-2'>
+                                                <a role='button' id='prev' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
+                                                <p className='text-center text-xs text-gray-500'>{Pagination.start < 1 ? 1 : Pagination.start} - {Pagination.end > AdminData.notifications.length ? AdminData.notifications.length : Pagination.end} of {AdminData.notifications.length}</p>
+                                                <a role='button' id='next' onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&rarr;</a>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -251,10 +252,6 @@ export default function AdminDashboard() {
 //     await SendEmail({ email, emailType: "VERIFY", userId });
 //     alert('Check your email for the verification link');
 // }
-
-Array.prototype.removeDuplicates = function () {
-    return this.filter((item, index) => this.indexOf(item) === index);
-}
 
 const handleReadDeleteNotifications = async (e, notificationId, index = 0, isTable = false, action = "") => {
     e.preventDefault();
@@ -303,7 +300,7 @@ const handleReadDeleteNotifications = async (e, notificationId, index = 0, isTab
                 console.error('Error reading/deleting notifications')
                 return
             }
-            window.location.replace(location.href);
+            window.location.reload();
         }
 
     }
