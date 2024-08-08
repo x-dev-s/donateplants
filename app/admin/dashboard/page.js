@@ -198,7 +198,7 @@ export default function AdminDashboard() {
                                     </div>
                                 ) : (
                                     <div className='overflow-auto max-h-[400px] rounded-lg'>
-                                        <table className='table text-sm w-full h-full text-gray-500'>
+                                        <table className='table !mb-0 text-sm w-full h-full text-gray-500'>
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
                                             </tbody>
                                         </table>
                                         {AdminData.notifications.length > 5 && (
-                                            <div className='pagination flex justify-center items-center gap-2 pb-2'>
+                                            <div className='pagination bg-gray-100 flex justify-center items-center gap-2 pb-2'>
                                                 <a role='button' id='prev' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
                                                 <p className='text-center text-xs text-gray-500'>{Pagination.start < 1 ? 1 : Pagination.start} - {Pagination.end > AdminData.notifications.length ? AdminData.notifications.length : Pagination.end} of {AdminData.notifications.length}</p>
                                                 <a role='button' id='next' onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&rarr;</a>
