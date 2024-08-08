@@ -414,7 +414,7 @@ td {
 }
 
 .slanted2 {
-  clip-path: polygon(0 0, 60% 0, 100% 100%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
 }
 
 .slanted-revert {
@@ -426,7 +426,7 @@ td {
 }
 
 .slanted2-revert {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 40% 100%);
+  clip-path: polygon(30% 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .slanted2-revert * {

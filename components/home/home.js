@@ -58,16 +58,7 @@ export default function Home() {
             </div>
 
             <div id="mainVideo" className="relative h-[400px] mb-4 hidden lg:block">
-                <div id="video" className="absolute top-0 left-0">
-                    <div className="relative slanted2">
-                        <div className="bg-gray-100/25 absolute top-0 left-0 w-full h-full z-10"></div>
-                        <video className="h-[400px]" autoPlay loop muted>
-                            <source src="/videos/plants.mp4" type="video/mp4" />
-                        </video>
-                    </div>
-                </div>
-
-                <div id="videoSide" className="flex justify-center items-center bg-white w-[60%] h-full slanted2-revert absolute top-0 left-[40%]">
+                <div id="videoSide" className="flex justify-center items-center z-10 bg-white w-[60%] h-full slanted2 absolute top-0 right-[45%]">
                     <div id="mainHeading" className="mx-auto">
                         <h2 className="text-center text-black lg:px-[7%] text-2xl">We plants trees for a better ecosystem and promote organic farming and organic food</h2>
                         <div className="flex justify-center mt-4">
@@ -75,6 +66,15 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+                <div id="video" className="absolute top-0 right-0">
+                    <div className="relative slanted2-revert">
+                        <div className="bg-gray-100/25 absolute top-0 left-0 w-full h-full z-10"></div>
+                        <video className="h-[400px]" autoPlay loop muted>
+                            <source src="/videos/plants.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+
             </div>
 
 
