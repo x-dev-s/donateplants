@@ -17,6 +17,7 @@ export default function AdminDashboard() {
     const [Draws, setDraws] = useState([])
     const [Packages, setPackages] = useState([])
     const [AdminData, setAdminData] = useState([])
+    const [Pagination, setPagination] = useState({ start: 1, end: 5 })
 
     let pkr = Intl.NumberFormat("en-PK", {
         style: "currency",
@@ -132,7 +133,7 @@ export default function AdminDashboard() {
             if (Pagination.start === 1) {
                 return;
             }
-            if (Pagination.start - 10 <= 1) {
+            if (Pagination.start - 5 <= 1) {
                 e.target.style.display = 'none'
                 document.getElementById('next').style.display = 'block'
             }
@@ -140,13 +141,13 @@ export default function AdminDashboard() {
                 e.target.style.display = 'block'
                 document.getElementById('next').style.display = 'block'
             }
-            setPagination({ start: Pagination.start - 10, end: Pagination.end - 10 })
+            setPagination({ start: Pagination.start - 5, end: Pagination.end - 5 })
         }
         else {
-            if (Pagination.end >= Draws.length) {
+            if (Pagination.end >= AdminData.notifications.length) {
                 return;
             }
-            if (Pagination.end + 10 >= Draws.length) {
+            if (Pagination.end + 5 >= AdminData.notifications.length) {
                 e.target.style.display = 'none'
                 document.getElementById('prev').style.display = 'block'
             }
@@ -154,7 +155,7 @@ export default function AdminDashboard() {
                 e.target.style.display = 'block'
                 document.getElementById('prev').style.display = 'block'
             }
-            setPagination({ start: Pagination.start + 10, end: Pagination.end + 10 })
+            setPagination({ start: Pagination.start + 5, end: Pagination.end + 5 })
         }
     }
 
@@ -169,15 +170,15 @@ export default function AdminDashboard() {
                             <DashboardCard image='/images/package.png' name='Active Packages' value={Packages.length} />
                             <DashboardCard image='/images/activedraws.png' name='Active Draws' value={Draws.filter(draw => draw.active).length} />
                             <DashboardCard image='/images/drawsbought.png' name='Draws Bought' value={AdminData.drawsBought} />
-                            <DashboardCard image='/images/donationcount.png' name='AdminData.notifications Count' value={AdminData.donationsCount} />
-                            <DashboardCard image='/images/donations.png' name='Total AdminData.notifications' value={pkrShort.format(AdminData.totalDonations / 100)} />
+                            <DashboardCard image='/images/donationcount.png' name='Donations Count' value={AdminData.donationsCount} />
+                            <DashboardCard image='/images/donations.png' name='Total Donations' value={pkrShort.format(AdminData.totalDonations / 100)} />
                             <DashboardCard image='/images/notifications_colored.png' name='Unread Notifications' value={AdminData.unreadNotifications} />
                         </div>
 
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
 
 
-                            <div id='notificationsTable' className='bg-gray-100 relative rounded-lg p-2'>
+                            <div id='notificationsTable' className='relative rounded-lg pt-3'>
                                 <h1 className='text-xl font-bold pb-3'>Notifications</h1>
                                 <div className='absolute top-1 right-2 text-right'>
                                     <div className='flex flex-col flex-1 md:gap-2 sm:w-full'>
@@ -196,7 +197,7 @@ export default function AdminDashboard() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
+                                    <div className='overflow-auto max-h-[400px] rounded-lg'>
                                         <table className='table text-sm w-full h-full text-gray-500'>
                                             <thead>
                                                 <tr>
@@ -211,7 +212,7 @@ export default function AdminDashboard() {
                                             <tbody>
                                                 {AdminData.notifications.sort((a, b) => new Date(b.date) - new Date(a.date)).map((notification, index) => (
                                                     <tr key={index} id={'tableNotification' + index}>
-                                                        <td>{index + 1}</td>
+                                                        <td>{index + Pagination.start}</td>
                                                         <td>{new Date(notification.date).toDateString().split(' ').slice(1).join(' ')}</td>
                                                         <td>{new Date(notification.date).toLocaleTimeString()}</td>
                                                         <td>{notification.message}</td>
@@ -221,7 +222,7 @@ export default function AdminDashboard() {
                                                 ))}
                                             </tbody>
                                         </table>
-                                        {AdminData.notifications.length > 10 && (
+                                        {AdminData.notifications.length > 5 && (
                                             <div className='pagination flex justify-center items-center gap-2 pb-2'>
                                                 <a role='button' id='prev' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
                                                 <p className='text-center text-xs text-gray-500'>{Pagination.start < 1 ? 1 : Pagination.start} - {Pagination.end > AdminData.notifications.length ? AdminData.notifications.length : Pagination.end} of {AdminData.notifications.length}</p>

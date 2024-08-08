@@ -338,6 +338,10 @@ table {
   margin-bottom: 50px !important;
 }
 
+.table {
+  --bs-table-bg: rgb(243 244 246) !important;
+}
+
 tr{
   height: 100px !important;
   vertical-align: middle !important;
@@ -353,14 +357,14 @@ tr{
 }
 
 ::-webkit-scrollbar {
-  display: initial;
-  width: 5px;
-  height: 5px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 5px;
+  background-color: transparent;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar-track {

@@ -70,7 +70,7 @@ export default function AdminDrawsPage() {
     return (
         <>
             {Donations ? (
-                <div className='relative text-center bg-gray-100 rounded-lg p-2'>
+                <div className='relative text-center rounded-lg pt-2'>
                     <h1 className='text-4xl font-bold pb-3'>Donations</h1>
                     {Donations.length === 0 ? (
                         <div className='flex items-center justify-center h-[200px] overflow-auto'>
@@ -80,7 +80,7 @@ export default function AdminDrawsPage() {
                             </div>
                         </div>
                     ) : (
-                        <div className='overflow-auto max-h-[400px] bg-white rounded-lg min-h-screen'>
+                        <div className='overflow-auto rounded-lg min-h-screen'>
                             <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                 <thead>
                                     <tr>
@@ -95,7 +95,7 @@ export default function AdminDrawsPage() {
                                 <tbody>
                                     {Donations.sort((a, b) => b.donations.reduce((acc, donation) => acc + donation.amount, 0) - a.donations.reduce((acc, donation) => acc + donation.amount, 0)).slice(Pagination.start - 1, Pagination.end).map((user, index) => (
                                         <tr key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>{index + Pagination.start}</td>
                                             <td>{new Date(user.donations.sort((a, b) => new Date(a.date) - new Date(b.date))[0].date).toDateString().split(' ').slice(1).join(' ')} - {new Date(user.donations.sort((a, b) => new Date(b.date) - new Date(a.date))[0].date).toDateString().split(' ').slice(1).join(' ')}</td>
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>

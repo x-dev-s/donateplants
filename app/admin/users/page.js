@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
         <>
             {User && Users ? (
                 <div>
-                    <div className='relative text-center rounded-lg p-2 bg-gray-100'>
+                    <div className='relative text-center rounded-lg pt-2'>
                         <h1 className='text-4xl font-bold pb-3'>Users</h1>
                         {Users.length === 0 ? (
                             <div className='flex items-center justify-center h-[200px] overflow-auto'>
@@ -82,7 +82,7 @@ export default function AdminUsersPage() {
                                 </div>
                             </div>
                         ) : (
-                            <div className='overflow-auto max-h-screen bg-white rounded-lg min-h-[100vh]'>
+                            <div className='overflow-auto rounded-lg min-h-[100vh]'>
                                 <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                     <thead>
                                         <tr>

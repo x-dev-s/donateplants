@@ -5,7 +5,7 @@ import DRAW from "./draw";
 
 export default function Draws() {
     const [user, setUser] = useState(null);
-    const [draws, setDraws] = useState([]);
+    const [draws, setDraws] = useState(null);
     const getUserData = async () => {
         const res = await fetch('/api/user',
             {
@@ -50,29 +50,42 @@ export default function Draws() {
 
     return (
         <div className="container mx-auto">
-            {draws && draws.filter(Draw => Draw.active).length > 0 ?
+            {draws ?
                 (
                     <>
-                        {draws.filter(Draw => Draw.active).map((Draw, mainindex) => (
-                            <div key={mainindex}>
-                                {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0).length > 0 ?
-                                    (
-                                        <DRAW user={user} Draw={Draw} mainindex={mainindex} />
-                                    ) :
-                                    mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active && draw.numbers.length == 0).length == 0)) ?
-                                        (
-                                            <DRAW user={user} Draw={Draw} mainindex={mainindex} />
+                        {
+                            draws.filter(Draw => Draw.active).length > 0 ?
+                                (
+                                    <>
+                                        {draws.filter(Draw => Draw.active).map((Draw, mainindex) => (
+                                            <div key={mainindex}>
+                                                {user && user.draws.filter(draw => draw.drawName == Draw.drawName && draw.active && draw.numbers.length == 0).length > 0 ?
+                                                    (
+                                                        <DRAW user={user} Draw={Draw} mainindex={mainindex} />
+                                                    ) :
+                                                    mainindex == 0 && (!user || (user.draws.filter(draw => draw.drawType == 'Standard' && draw.active && draw.numbers.length == 0).length == 0 && user.draws.filter(draw => draw.drawType == 'Farmer' && draw.active && draw.numbers.length == 0).length == 0)) ?
+                                                        (
+                                                            <DRAW user={user} Draw={Draw} mainindex={mainindex} />
+                                                        )
+                                                        : null
+                                                }
+                                            </div>
                                         )
-                                        : null
-                                }
-                            </div>
-                        )
-                        )
+                                        )
+                                        }
+                                    </>
+                                ) : (
+                                    <div className="text-center h-screen flex justify-center items-center">
+                                        <h1>No active draws</h1>
+                                    </div>
+                                )
                         }
                     </>
                 ) : (
-                    <div className="text-center h-screen flex justify-center items-center">
-                        <h1>No active draws</h1>
+                    <div className='text-center h-screen w-full flex items-center'>
+                        <div className='m-auto flex items-center'>
+                            <h2 className='text-4xl'>Please wait</h2><span className='ml-2 mt-[12px]'><img src='/images/loading2.gif' className='w-[30px] h-[30px]' alt='loading' /></span>
+                        </div>
                     </div>
                 )}
             <div id="buyDonate" className="hidden">

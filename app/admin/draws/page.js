@@ -119,7 +119,7 @@ export default function AdminDrawsPage() {
     return (
         <>
             {Draws ? (
-                <div className='relative text-center bg-gray-100 rounded-lg p-2'>
+                <div className='relative text-center rounded-lg pt-2'>
                     <h1 className='text-4xl font-bold pb-3'>Draws</h1>
                     {Draws.length === 0 ? (
                         <div className='flex items-center justify-center h-[200px] overflow-auto'>
@@ -131,7 +131,7 @@ export default function AdminDrawsPage() {
                     ) : (
                         <>
                             <a role='button' onClick={(e) => { handleEditDraw(e) }} className='sm:absolute top-2 right-2 text-green-500 text-xs'>Create Draw</a>
-                            <div className='overflow-auto max-h-[400px] bg-white rounded-lg min-h-[100vh]'>
+                            <div className='overflow-auto rounded-lg min-h-[100vh]'>
                                 <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                     <thead>
                                         <tr>
@@ -152,7 +152,7 @@ export default function AdminDrawsPage() {
                                     <tbody>
                                         {Draws.sort((a, b) => new Date(b.createddate) - new Date(a.createddate)).slice(Pagination.start - 1, Pagination.end).map((draw, index) => (
                                             <tr key={index}>
-                                                <td>{index + 1}</td>
+                                                <td>{index + Pagination.start}</td>
                                                 <td>{draw.drawName}</td>
                                                 <td>{draw.drawType}</td>
                                                 <td>{new Date(draw.createddate).toDateString().split(' ').slice(1).join(' ')}</td>

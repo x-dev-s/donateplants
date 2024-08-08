@@ -85,7 +85,7 @@ export default function AdminDrawsPage() {
     return (
         <>
             {Packages ? (
-                <div className='relative text-center bg-gray-100 rounded-lg p-2'>
+                <div className='relative text-center rounded-lg pt-2'>
                 <h1 className='text-4xl font-bold pb-3'>Packages</h1>
                 {Packages.length === 0 ? (
                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
@@ -97,7 +97,7 @@ export default function AdminDrawsPage() {
                 ) : (
                     <>
                         <a role='button' onClick={(e) => handleEditPkg(e)} className='sm:absolute top-2 right-2 text-green-500 text-xs'>Create Package</a>
-                        <div className='overflow-auto max-h-[400px] bg-white rounded-lg min-h-[100vh]'>
+                        <div className='overflow-auto rounded-lg min-h-[100vh]'>
                             <table className='table text-sm w-full h-full text-gray-500 min-h-[90vh]'>
                                 <thead>
                                     <tr>
@@ -113,7 +113,7 @@ export default function AdminDrawsPage() {
                                 <tbody>
                                     {Packages.toReversed().slice(Pagination.start - 1, Pagination.end).map((pkg, index) => (
                                         <tr key={index}>
-                                            <td>{index + 1}</td>
+                                            <td>{index + Pagination.start}</td>
                                             <td>{pkg.name}</td>
                                             <td>{pkg.type}</td>
                                             <td>{pkg.description}</td>

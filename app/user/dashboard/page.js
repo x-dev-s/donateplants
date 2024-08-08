@@ -33,6 +33,9 @@ export default function UserDashboard() {
     const [errorCode, setErrorCode] = useState(null);
     const [isValid, setIsValid] = useState(null);
     const [changedPhone, changePhone] = useState(null);
+    const [Pagination1, setPagination1] = useState({ start: 1, end: 5 })
+    const [Pagination2, setPagination2] = useState({ start: 1, end: 5 })
+    const [Pagination3, setPagination3] = useState({ start: 1, end: 5 })
     const router = useRouter();
 
     const handlePhoneValidation = () => {
@@ -79,7 +82,7 @@ export default function UserDashboard() {
     }
 
     useEffect(() => {
-        if(window.location.href.includes('?session')) {
+        if (window.location.href.includes('?session')) {
             let token = window.location.href.split('?')[1].split('=')[1];
             token = decodeURIComponent(token);
             document.cookie = `session=${token}`;
@@ -88,6 +91,95 @@ export default function UserDashboard() {
             getUserData();
         }
     }, [])
+
+    const handlePagination = (e) => {
+        e.preventDefault();
+        if (e.target.id.includes('prev1')) {
+            if (Pagination1.start === 1) {
+                return;
+            }
+            if (Pagination1.start - 5 <= 1) {
+                e.target.style.display = 'none'
+                document.getElementById('next1').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('next1').style.display = 'block'
+            }
+            setPagination1({ start: Pagination1.start - 5, end: Pagination1.end - 5 })
+        }
+        else if (e.target.id.includes('next1')) {
+            if (Pagination1.end >= draws.length) {
+                return;
+            }
+            if (Pagination1.end + 5 >= draws.length) {
+                e.target.style.display = 'none'
+                document.getElementById('prev1').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('prev1').style.display = 'block'
+            }
+            setPagination1({ start: Pagination1.start + 5, end: Pagination1.end + 5 })
+        }
+        else if (e.target.id.includes('prev2')) {
+            if (Pagination2.start === 1) {
+                return;
+            }
+            if (Pagination2.start - 5 <= 1) {
+                e.target.style.display = 'none'
+                document.getElementById('next2').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('next2').style.display = 'block'
+            }
+            setPagination2({ start: Pagination2.start - 5, end: Pagination2.end - 5 })
+        }
+        else if (e.target.id.includes('next2')) {
+            if (Pagination2.end >= donations.length) {
+                return;
+            }
+            if (Pagination2.end + 5 >= donations.length) {
+                e.target.style.display = 'none'
+                document.getElementById('prev2').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('prev2').style.display = 'block'
+            }
+            setPagination2({ start: Pagination2.start + 5, end: Pagination2.end + 5 })
+        }
+        else if (e.target.id.includes('prev3')) {
+            if (Pagination3.start === 1) {
+                return;
+            }
+            if (Pagination3.start - 5 <= 1) {
+                e.target.style.display = 'none'
+                document.getElementById('next3').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('next3').style.display = 'block'
+            }
+            setPagination3({ start: Pagination3.start - 5, end: Pagination3.end - 5 })
+        }
+        else {
+            if (Pagination3.end >= deposits.length) {
+                return;
+            }
+            if (Pagination3.end + 5 >= deposits.length) {
+                e.target.style.display = 'none'
+                document.getElementById('prev3').style.display = 'block'
+            }
+            else {
+                e.target.style.display = 'block'
+                document.getElementById('prev3').style.display = 'block'
+            }
+            setPagination3({ start: Pagination3.start + 5, end: Pagination3.end + 5 })
+        }
+
+    }
 
     return (
         <div className="container my-5 mx-auto">
@@ -171,22 +263,22 @@ export default function UserDashboard() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div className='hidden sm:block text-end text-sm md:text-base'>
                                 <p id='accountBalance' className='font-bold p-1'>Account Balance: {pkr.format(balance)}</p>
-                                { verified ? (
-                                <button onClick={handleDeposit} className='bg-green-600 text-white p-2 rounded-lg'>Deposit</button>
+                                {verified ? (
+                                    <button onClick={handleDeposit} className='bg-green-600 text-white p-2 rounded-lg'>Deposit</button>
                                 ) : (
-                                    <button onClick={() => {handleEmailVerification(email, userId)}} className='bg-green-600 text-white p-2 rounded-lg'>Verify Account</button>
+                                    <button onClick={() => { handleEmailVerification(email, userId) }} className='bg-green-600 text-white p-2 rounded-lg'>Verify Account</button>
                                 )}
                             </div>
                             <div title='Deposit' className='block sm:hidden text-end text-sm md:text-base'>
                                 <p className='font-bold p-0'>Balance:</p>
                                 <p id='accountBalance' className='font-bold p-1'>{pkr.format(balance)}</p>
-                                { verified ? (
-                                <button onClick={handleDeposit} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/deposit.png' alt='deposit' /></button>
+                                {verified ? (
+                                    <button onClick={handleDeposit} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/deposit.png' alt='deposit' /></button>
                                 ) : (
-                                    <button onClick={() => {handleEmailVerification(email, userId)}} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/verify.png' alt='verify' /></button>
+                                    <button onClick={() => { handleEmailVerification(email, userId) }} className='rounded-lg animate-pulse'><img className='w-10 h-10' src='/images/verify.png' alt='verify' /></button>
                                 )}
                             </div>
                         </div>
@@ -197,8 +289,8 @@ export default function UserDashboard() {
                             <DashboardCard image='/images/drawswon.png' name='Draws Won' value={drawsWon.length} />
                         </div>
                         <div className='grid grid-cols-1 gap-3 text-center justify-between mt-3'>
-                            <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold pb-3'>Draws</h1>
+                            <div>
+                                <h1 className='text-2xl font-bold pb-3'>Draws</h1>
                                 {draws.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -207,8 +299,8 @@ export default function UserDashboard() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
-                                        <table className='table text-sm w-full h-full text-gray-500'>
+                                    <div className='overflow-auto max-h-[400px] rounded-lg'>
+                                        <table className='table !mb-0 text-sm w-full h-full text-gray-500'>
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
@@ -222,9 +314,9 @@ export default function UserDashboard() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {draws.toReversed().map((draw, index) => (
+                                                {draws.toReversed().slice(Pagination1.start - 1, Pagination1.end).map((draw, index) => (
                                                     <tr key={index}>
-                                                        <td>{index + 1}</td>
+                                                        <td>{index + Pagination1.start}</td>
                                                         <td>{draw.date.split('T')[0]}</td>
                                                         <td>{draw.drawName}</td>
                                                         <td>{draw.drawType}</td>
@@ -236,11 +328,18 @@ export default function UserDashboard() {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        {draws.length > 5 && (
+                                            <div className='pagination bg-gray-100 flex justify-center items-center gap-2 pb-2'>
+                                                <a role='button' id='prev1' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
+                                                <p className='text-center text-xs text-gray-500'>{Pagination1.start < 1 ? 1 : Pagination1.start} - {Pagination1.end > draws.length ? draws.length : Pagination1.end} of {draws.length}</p>
+                                                <a role='button' id='next1' onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&rarr;</a>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
-                            <div className='bg-gray-100 rounded-lg p-2'>
-                                <h1 className='text-xl font-bold pb-3'>Donations</h1>
+                            <div>
+                                <h1 className='text-2xl font-bold pb-3'>Donations</h1>
                                 {donations.length === 0 ? (
                                     <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                         <div className='m-auto'>
@@ -249,8 +348,8 @@ export default function UserDashboard() {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
-                                        <table className='table text-sm w-full h-full text-gray-500'>
+                                    <div className='overflow-auto max-h-[400px] rounded-lg'>
+                                        <table className='table !mb-0 text-sm w-full h-full text-gray-500'>
                                             <thead>
                                                 <tr>
                                                     <th>No.</th>
@@ -264,9 +363,9 @@ export default function UserDashboard() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {donations.toReversed().map((donation, index) => (
+                                                {donations.toReversed().slice(Pagination2.start - 1, Pagination2.end).map((donation, index) => (
                                                     <tr key={index}>
-                                                        <td>{index + 1}</td>
+                                                        <td>{index + Pagination2.start}</td>
                                                         <td>{donation.date.split('T')[0]}</td>
                                                         <td>{donation.donationType}</td>
                                                         <td>{pkr.format(donation.amount / 100)}</td>
@@ -278,12 +377,19 @@ export default function UserDashboard() {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        {donations.length > 5 && (
+                                            <div className='pagination bg-gray-100 flex justify-center items-center gap-2 pb-2'>
+                                                <a role='button' id='prev2' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
+                                                <p className='text-center text-xs text-gray-500'>{Pagination2.start < 1 ? 1 : Pagination2.start} - {Pagination2.end > donations.length ? donations.length : Pagination2.end} of {donations.length}</p>
+                                                <a role='button' id='next2' onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&rarr;</a>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
                         </div>
-                        <div className='bg-gray-100 rounded-lg p-2 mt-3 text-center'>
-                            <h1 className='text-xl font-bold pb-3'>Deposits</h1>
+                        <div className='mt-3 text-center'>
+                            <h1 className='text-2xl font-bold pb-3'>Deposits</h1>
                             {deposits.length === 0 ? (
                                 <div className='flex items-center justify-center h-[200px] overflow-auto'>
                                     <div className='m-auto'>
@@ -292,8 +398,8 @@ export default function UserDashboard() {
                                     </div>
                                 </div>
                             ) : (
-                                <div className='overflow-auto max-h-[400px] bg-white rounded-lg'>
-                                    <table className='table text-sm w-full h-full text-gray-500'>
+                                <div className='overflow-auto max-h-[400px] rounded-lg'>
+                                    <table className='table !mb-0 text-sm w-full h-full text-gray-500'>
                                         <thead>
                                             <tr>
                                                 <th>No.</th>
@@ -303,9 +409,9 @@ export default function UserDashboard() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {deposits.toReversed().map((deposit, index) => (
+                                            {deposits.toReversed().slice(Pagination3.start - 1, Pagination3.end).map((deposit, index) => (
                                                 <tr key={index}>
-                                                    <td>{index + 1}</td>
+                                                    <td>{index + Pagination3.start}</td>
                                                     <td>{deposit.date.split('T')[0]}</td>
                                                     <td>{pkr.format(deposit.amount / 100)}</td>
                                                     <td>{deposit.method}</td>
@@ -313,6 +419,13 @@ export default function UserDashboard() {
                                             ))}
                                         </tbody>
                                     </table>
+                                    {deposits.length > 5 && (
+                                        <div className='pagination bg-gray-100 flex justify-center items-center gap-2 pb-2'>
+                                            <a role='button' id='prev3' style={{ display: "none" }} onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&larr;</a>
+                                            <p className='text-center text-xs text-gray-500'>{Pagination3.start < 1 ? 1 : Pagination3.start} - {Pagination3.end > deposits.length ? deposits.length : Pagination3.end} of {deposits.length}</p>
+                                            <a role='button' id='next3' onClick={handlePagination} className='text-center text-gray-500 hover:transform hover:scale-125'>&rarr;</a>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
