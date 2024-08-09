@@ -231,6 +231,7 @@ export default function DRAW({ user, Draw, mainindex }) {
             </div>
             {mutationObserver(Draw.drawType + "DrawBlurBg" + mainindex)}
             {enddate(Draw.enddate, Draw.drawType + 'Drawsideclock' + mainindex)}
+            {enddate(Draw.enddate, Draw.drawType + 'Drawsideclock' + mainindex)}
         </div>
     )
 }
